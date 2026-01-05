@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>修复后的矩形侧边导航栏组件</title>
+  <!-- 引入外部CSS文件 -->
+  <link rel="stylesheet" href="侧面导航栏.css">
+</head>
+<body>
+  <!-- 新增导航容器，确保导航栏与小圆按钮的相对位置 -->
+  <div class="nav-container" id="navContainer">
+    <!-- 侧边导航栏 -->
+    <div class="side-nav" id="sideNav">
+      <div class="nav-content" id="navContent"></div>
+    </div>
+    
+    <!-- 进度圆环按钮 - 使用SVG实现圆环效果 -->
+    <div class="progress-circle-wrapper" id="progressCircleWrapper">
+      <div class="progress-circle" id="toggleNavBtn">
+        <!-- SVG圆环实现 -->
+        <svg width="60" height="60" viewBox="0 0 60 60">
+          <defs>
+            <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" class="progress-gradient" />
+              <stop offset="100%" class="progress-gradient-end" />
+            </linearGradient>
+          </defs>
+          <circle class="progress-ring-bg" cx="30" cy="30" r="25" />
+          <circle class="progress-ring-progress" id="progressRing" cx="30" cy="30" r="25" />
+        </svg>
+        <div class="progress-circle-inner">
+          <span id="toggleIcon">☰</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 页面内容 -->
+  <div class="content">
+    <h1 id="section1">第一章：组件概述</h1>
+    <p>这是一个功能丰富的侧边导航栏组件，能够自动扫描页面内容，生成多级导航结构，并提供流畅的交互体验。</p>
+    <h2 id="section1-1">1.1 主要特性</h2>
+    <p>组件支持自动识别页面中的标题层次，创建对应的导航项，并提供多种交互方式。</p>
+    <h2 id="section1-2">1.2 适用场景</h2>
+    <p>适用于长文档、教程页面、产品介绍等需要快速导航的网页应用。</p>
+    
+    <h1 id="section2">第二章：核心功能</h1>
+    <p>组件的核心功能包括自动导航生成、阅读进度显示和导航栏控制。</p>
+    <h2 id="section2-1">2.1 自动导航生成</h2>
+    <p>组件会自动扫描页面中的所有h1和h2标题，为每个标题创建对应的导航项，支持多级结构。</p>
+    <h2 id="section2-2">2.2 阅读进度显示</h2>
+    <p>通过SVG圆环实时显示当前阅读进度，提供直观的进度反馈。</p>
+    <h2 id="section2-3">2.3 导航栏控制</h2>
+    <p>点击圆环按钮可以展开或折叠整个导航栏，节省页面空间。</p>
+    
+    <h1 id="section3">第三章：交互机制</h1>
+    <p>组件提供了丰富的交互方式，提升用户导航体验。</p>
+    <h2 id="section3-1">3.1 三级点击交互</h2>
+    <p>一级导航项支持三级点击：第一次点击展开二级导航，第二次点击跳转到对应章节，第三次点击收起二级导航。</p>
+    <h2 id="section3-2">3.2 平滑滚动</h2>
+    <p>点击导航项时，页面会平滑滚动到对应位置，提供流畅的阅读体验。</p>
+    <h2 id="section3-3">3.3 活动状态高亮</h2>
+    <p>当前阅读章节的导航项会自动高亮显示，帮助用户了解当前位置。</p>
+    
+    <h1 id="section4">第四章：视觉效果</h1>
+    <p>组件注重视觉设计，提供美观的界面和流畅的动画效果。</p>
+    <h2 id="section4-1">4.1 渐变背景</h2>
+    <p>导航栏采用紫色渐变背景，与圆环的蓝色渐变形成视觉对比。</p>
+    <h2 id="section4-2">4.2 圆环动画</h2>
+    <p>圆环在导航栏展开时会平滑移动到右下角位置，收缩时回到左侧中间。</p>
+    <h2 id="section4-3">4.3 过渡效果</h2>
+    <p>所有状态变化都配备了平滑的CSS过渡动画，提升交互流畅度。</p>
+    
+    <h1 id="section5">第五章：技术实现</h1>
+    <p>组件采用现代Web技术实现，确保性能和兼容性。</p>
+    <h2 id="section5-1">5.1 HTML结构</h2>
+    <p>使用语义化的HTML结构，便于搜索引擎理解和无障碍访问。</p>
+    <h2 id="section5-2">5.2 CSS样式</h2>
+    <p>采用Flexbox布局和CSS变量，支持响应式设计和主题定制。</p>
+    <h2 id="section5-3">5.3 JavaScript逻辑</h2>
+    <p>使用原生JavaScript实现DOM操作和事件处理，无需外部依赖。</p>
+    
+    <h1 id="section6">第六章：使用指南</h1>
+    <p>快速上手本组件，只需几步简单操作。</p>
+    <h2 id="section6-1">6.1 文件引入</h2>
+    <p>将HTML、CSS和JavaScript文件复制到您的项目中，并正确引入CSS和JS文件。</p>
+    <h2 id="section6-2">6.2 页面结构</h2>
+    <p>确保页面内容使用标准的h1和h2标题，组件会自动识别并生成导航。</p>
+    <h2 id="section6-3">6.3 自定义配置</h2>
+    <p>可以通过修改CSS变量和JavaScript参数来自定义外观和行为。</p>
+    
+    <h1 id="section7">第七章：定制选项</h1>
+    <p>组件提供了丰富的定制选项，满足不同项目需求。</p>
+    <h2 id="section7-1">7.1 颜色主题</h2>
+    <p>可以通过修改CSS中的渐变色值来改变导航栏和圆环的颜色。</p>
+    <h2 id="section7-2">7.2 尺寸调整</h2>
+    <p>可以调整导航栏宽度、圆环大小等尺寸参数以适应不同布局。</p>
+    <h2 id="section7-3">7.3 动画参数</h2>
+    <p>可以通过修改transition属性来调整动画时长和缓动函数。</p>
+    
+    <h1 id="section8">第八章：最佳实践</h1>
+    <p>使用组件时的建议和注意事项。</p>
+    <h2 id="section8-1">8.1 内容组织</h2>
+    <p>合理使用h1和h2标题，确保导航结构清晰易懂。</p>
+    <h2 id="section8-2">8.2 性能优化</h2>
+    <p>对于超长页面，可以考虑分页或懒加载来提升性能。</p>
+    <h2 id="section8-3">8.3 兼容性</h2>
+    <p>组件兼容现代浏览器，建议在生产环境中进行充分测试。</p>
+  </div>
+  
+  <!-- 引入外部JavaScript文件 -->
+  <script src="侧面导航栏.js"></script>
+</body>
+</html>

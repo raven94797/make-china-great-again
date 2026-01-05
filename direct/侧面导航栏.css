@@ -1,0 +1,280 @@
+/* 全局样式重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Microsoft YaHei', sans-serif;
+  line-height: 1.6;
+  padding-left: 250px; /* 为侧边导航栏留出空间 */
+  transition: padding-left 0.3s ease;
+  overflow-x: hidden;
+}
+
+/* 导航栏容器 - 使用绝对定位确保与小圆按钮的相对位置 */
+.nav-container {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 250px;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  transform-origin: top left;
+  transform: scale(1); /* 固定缩放比例为1 */
+}
+
+/* 收缩状态下的导航容器 */
+.nav-container.collapsed {
+  width: 0;
+}
+
+/* 侧边导航栏 - 矩形 */
+.side-nav {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 250px;
+  height: 100vh;
+  background: linear-gradient(180deg, #9c27b0, #673ab7);
+  box-shadow: 3px 0 10px rgba(156, 39, 176, 0.3);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  border-right: 3px solid transparent;
+  /* 修改1: 增加收缩时的过渡效果 */
+  transition: width 0.3s ease, overflow 0.3s ease;
+  transform-origin: top left;
+  transform: scale(1); /* 固定缩放比例为1 */
+}
+
+/* 修改1: 收缩状态下隐藏紫色矩形 */
+.nav-container.collapsed .side-nav {
+  width: 0;
+  overflow: hidden;
+}
+
+/* 收缩状态下的body调整 */
+body.nav-collapsed {
+  padding-left: 0;
+}
+
+/* 进度圆环按钮 - 使用相对定位确保与导航栏同步 */
+.progress-circle-wrapper {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1001;
+  transition: all 0.3s ease;
+}
+
+/* 进度圆环实现 - 使用SVG实现真正的圆环效果 */
+.progress-circle {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+
+/* 背景圆环 */
+.progress-ring-bg {
+  fill: none;
+  stroke: #e0e0e0;
+  stroke-width: 5;
+}
+
+/* 进度圆环 */
+.progress-ring-progress {
+  fill: none;
+  stroke: url(#progressGradient);
+  stroke-width: 5;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+/* 修改2: 进度圆环渐变色 - 使用蓝色系与紫色区分 */
+.progress-gradient {
+  stop-color: #2196F3;
+}
+
+.progress-gradient-end {
+  stop-color: #03A9F4;
+}
+
+/* 按钮内部 */
+.progress-circle-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 导航内容容器 */
+.nav-content {
+  width: 100%;
+  padding: 20px 15px;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+/* 圆环按钮占位区域 - 用于避免导航项与圆环重叠 */
+.nav-circle-placeholder {
+  height: 80px;
+  width: 100%;
+  visibility: hidden;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+/* 收缩状态下隐藏导航内容 */
+.nav-container.collapsed .nav-content {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 一级导航项样式 - 使用flex布局确保箭头对齐 */
+.nav-item.level-1 {
+  position: relative;
+  width: 100%;
+  padding: 12px 15px;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 一级导航项悬停效果 */
+.nav-item.level-1:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding-left: 20px;
+}
+
+/* 一级导航项激活状态 */
+.nav-item.level-1.active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* 二级导航容器 */
+.nav-level-2 {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 二级导航展开状态 */
+.nav-level-2.expanded {
+  max-height: 500px;
+}
+
+/* 二级导航项样式 */
+.nav-item.level-2 {
+  position: relative;
+  width: 100%;
+  padding: 10px 15px 10px 30px;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: block;
+}
+
+/* 二级导航项悬停效果 */
+.nav-item.level-2:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding-left: 35px;
+}
+
+/* 二级导航项激活状态 */
+.nav-item.level-2.active {
+  background-color: rgba(255, 255, 255, 0.25);
+  color: white;
+}
+
+/* 展开/折叠图标 */
+.expand-icon {
+  transition: transform 0.3s ease;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* 展开状态下的图标旋转 */
+.nav-item.level-1.expanded .expand-icon {
+  transform: rotate(180deg);
+}
+
+/* 页面内容样式 */
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+h1 {
+  color: #333;
+  margin: 60px 0 30px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #9c27b0;
+  font-size: 28px;
+}
+
+h2 {
+  color: #555;
+  margin: 40px 0 20px;
+  font-size: 22px;
+  border-left: 4px solid #673ab7;
+  padding-left: 15px;
+}
+
+p {
+  margin-bottom: 15px;
+  color: #666;
+  line-height: 1.8;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  body {
+    padding-left: 0;
+  }
+  
+  .nav-container {
+    transform: translateX(-100%);
+  }
+  
+  .nav-container.expanded-mobile {
+    transform: translateX(0);
+  }
+  
+  .progress-circle-wrapper {
+    left: 20px;
+    top: 20px;
+    transform: none;
+    z-index: 1002;
+  }
+  
+  .content {
+    padding-top: 60px;
+  }
+}
