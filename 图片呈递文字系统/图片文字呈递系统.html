@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>人物展示组件</title>
+  <link rel="stylesheet" href="图片文字呈递系统.css">
+</head>
+<body>
+  <div class="container">
+    <h1>人物展示</h1>
+    <!-- 主展示区：每个 .character 占据宽度的 50%，可横向扩展为多行 -->
+    <div id="roster" class="roster-display">
+      <div class="character left">
+        <img src="" alt="">
+        <div class="info">
+          <h3></h3>
+          <div class="pages"><!-- pages 将由 JS 动态填充 -->
+          </div>
+          <div class="pager">
+            <button class="more-btn" aria-hidden="true">下一页</button>
+            <button class="back-btn" aria-hidden="true">上一页</button>
+          </div>
+        </div>
+      </div>
+      <div class="character right">
+        <img src="" alt="">
+        <div class="info">
+          <h3></h3>
+          <div class="pages"><!-- pages 将由 JS 动态填充 -->
+          </div>
+          <div class="pager">
+            <button class="more-btn" aria-hidden="true">下一页</button>
+            <button class="back-btn" aria-hidden="true">上一页</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 模板：供 JS 动态克隆用于添加更多人物 -->
+    <template id="character-template">
+      <div class="character">
+        <img src="" alt="">
+        <div class="info">
+          <h3></h3>
+          <div class="pages"><!-- pages 将由 JS 动态填充 -->
+          </div>
+          <div class="pager">
+            <button class="more-btn" aria-hidden="true">下一页</button>
+            <button class="back-btn" aria-hidden="true">上一页</button>
+          </div>
+        </div>
+      </div>
+    </template>
+  </div>
+  <script src="图片文字呈递系统.js"></script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+/* 全局样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Microsoft YaHei', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1600px;
+  width: 100%;
+  text-align: center;
+}
+
+h1 {
+  color: white;
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Roster显示样式 */
+.roster-display {
+  display: flex;
+  /* 宽屏优先保持左右结构，不换行；移动端再调整为列 */
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 20px;
+  width: 100%;
+  /* 不限制高度：页面长度可随图片放大，保证图片放大显示 */
+  height: auto;
+}
+
+/* 人物卡片样式 */
+.character {
+  position: relative;
+  width: 50%; /* 左右各占一半宽度 */
+  height: auto; /* 根据内容（图片）高度自适应 */
+  overflow: hidden; /* 隐藏未显示的 info，使其藏在图片下方 */
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.character:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.character img {
+  /* 放大图片并保持完整可见：以宽度为主，按比例缩放高度 */
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  transition: filter 0.3s ease, transform 0.3s ease;
+  display: block;
+}
+
+.character:hover img {
+  filter: brightness(0.7);
+}
+
+/* 介绍信息样式 */
+.info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  border-radius: 0 0 15px 15px;
+  pointer-events: none; /* 鼠标在未展开时不与 info 交互 */
+}
+
+.character:hover .info {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* 分页内容 */
+
+.info .pages {
+  width: 100%;
+  position: relative;
+}
+
+.info .page {
+  width: 100%;
+  color: #fff;
+  text-align: left;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  padding-bottom: 32px; /* 给按钮留空间 */
+}
+
+.info .pager {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+}
+
+.info .pager button {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.info .pager button:hover {
+  background: rgba(255,255,255,0.18);
+}
+
+.info h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #FFD700;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.info p {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+
+  /* 移动端改为上下结构，图片高度适中，信息层更易阅读 */
+  .roster-display {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 12px;
+    height: auto;
+  }
+
+  .character {
+    width: 100%;
+    height: 45vh;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+}
