@@ -1,0 +1,217 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    /* 使用 flex 居中页面内容 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* 页面占满视口高度 */
+    height: 100vh;
+    /* 页面背景：大范围渐变 */
+    background: linear-gradient(135deg, #ff5f6d 0%, #ffc371 25%, #fbd786 40%, #c6ffdd 60%, #5efce8 75%, #30cfd0 100%);
+}
+
+ul {
+    /* 容器：相对定位，承载九个色块形成心形 */
+    position: relative;
+    display: flex;
+    height: 200px;
+    /* 保持原始块尺寸与间距以确保心形排列 */
+    /* 整体心形容器：设置缩放原点并添加脉动动画 */
+    transform-origin: center bottom;
+    animation: heart-pulse 5s infinite;
+}
+
+ul::after {
+    content: '炽热永恒的爱';
+    /* 覆盖文字：绝对定位在容器上方 */
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    color: darkturquoise;
+    font-size: 30px;
+    font-weight: 700;
+    /* 覆盖文字的偏移，用于精确定位 */
+    transform: translate(-50%, -600%);
+}
+
+li {
+    /* 列表项：移除默认样式并设置块尺寸 */
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    margin: 0 10px;
+    /* 每个块使用同一渐变的不同比例切片，形成连贯色带 */
+    background-image: linear-gradient(90deg, #ff5f6d 0%, #ffc371 20%, #fbd786 40%, #c6ffdd 60%, #5efce8 80%, #30cfd0 100%);
+    background-size: 900% 100%;
+    background-repeat: no-repeat;
+    /* 使用自定义属性 --i 控制背景位置，使所有色块看起来属于同一大背景 */
+    background-position: calc(var(--i) * (100% / 8)) 0;
+    position: relative;
+}
+
+/* 伪元素用于在心形完成并跳动时将单个色块染为红色并闪烁 */
+li::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: red;
+    opacity: 0;
+    pointer-events: none;
+    /* 同步总体节奏：与容器脉动周期相同 */
+    animation: heart-flash 5s infinite;
+}
+
+li:nth-child(1) {
+    --i: 0;
+    animation: love1 5s 0s infinite;
+}
+
+li:nth-child(2) {
+    --i: 1;
+    animation: love2 5s 0.2s infinite;
+}
+
+li:nth-child(3) {
+    --i: 2;
+    animation: love3 5s 0.4s infinite;
+}
+
+li:nth-child(4) {
+    --i: 3;
+    animation: love4 5s 0.6s infinite;
+}
+
+li:nth-child(5) {
+    --i: 4;
+    animation: love5 5s 0.8s infinite;
+}
+
+li:nth-child(6) {
+    --i: 5;
+    animation: love4 5s 1s infinite;
+
+}
+
+li:nth-child(7) {
+    --i: 6;
+    animation: love3 5s 1.2s infinite;
+}
+
+li:nth-child(8) {
+    --i: 7;
+    animation: love2 5s 1.4s infinite;
+}
+
+li:nth-child(9) {
+    --i: 8;
+    animation: love1 5s 1.6s infinite;
+}
+
+@keyframes love1 {
+
+    30%,
+    50% {
+        height: 60px;
+        transform: translateY(-30px);
+    }
+
+    70%,
+    100% {
+        height: 20px;
+        transform: translateY(0);
+    }
+}
+
+@keyframes love2 {
+
+    30%,
+    50% {
+        height: 125px;
+        transform: translateY(-60px);
+    }
+
+    70%,
+    100% {
+        height: 20px;
+        transform: translateY(0);
+    }
+}
+
+@keyframes love3 {
+
+    30%,
+    50% {
+        height: 160px;
+        transform: translateY(-75px);
+    }
+
+    70%,
+    100% {
+        height: 20px;
+        transform: translateY(0);
+    }
+}
+
+@keyframes love4 {
+
+    30%,
+    50% {
+        height: 180px;
+        transform: translateY(-60px);
+    }
+
+    70%,
+    100% {
+        height: 20px;
+        transform: translateY(0);
+    }
+}
+
+@keyframes love5 {
+
+    30%,
+    50% {
+        height: 200px;
+        transform: translateY(-45px);
+    }
+
+    70%,
+    100% {
+        height: 20px;
+        transform: translateY(0);
+    }
+}
+
+/* 整体心形的脉动：在心形形成后膨胀再收回 */
+@keyframes heart-pulse {
+    0%, 25% {
+        transform: scale(1);
+    }
+    40% {
+        transform: scale(1.06);
+    }
+    50% {
+        transform: scale(0.99);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 在心形形成时短暂闪烁：仅改变色块为红色并闪烁数次 */
+@keyframes heart-flash {
+    0%, 30% { opacity: 0; }
+    38% { opacity: 0.9; }
+    42% { opacity: 0; }
+    44% { opacity: 0.9; }
+    46% { opacity: 0; }
+    48% { opacity: 0.9; }
+    52% { opacity: 0; }
+    100% { opacity: 0; }
+}
