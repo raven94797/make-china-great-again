@@ -1,0 +1,3626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北京师范大学介绍</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        
+    <style>
+        /* 顶部导航栏 */
+        .top-navigation {
+            position: fixed;
+            top: -100px;
+            left: 0;
+            width: 100%;
+            background: rgba(74, 111, 165, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            transition: top 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-navigation.show {
+            top: 0;
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            align-items: center;
+            height: 70px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-item {
+            margin: 0 15px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 导航栏滑入动画 */
+        @keyframes navSlideDown {
+            0% {
+                top: -100px;
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                top: 0;
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* 页面内容区域样式 */
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent-color);
+            display: inline-block;
+        }
+
+        .section h3 {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+            margin: 20px 0 10px;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+            color: var(--dark-text);
+        }
+
+        .section ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+            color: var(--dark-text);
+        }
+
+        /* 领导和名人项目样式 */
+        .leader-item,
+        .famous-person {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .leader-item:hover,
+        .famous-person:hover {
+            transform: translateX(10px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .leader-item h3,
+        .famous-person h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        /* 淡入动画 */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff9a8b;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+            background: #ff9a8b;
+        }
+
+        /* 状态指示器 */
+        .status-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .status-indicator.show {
+            opacity: 1;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        :root {
+            --primary-color: #4a6fa5; /* 男生系蓝色 */
+            --secondary-color: #6b8cbc;
+            --accent-color: #ff9a8b; /* 温暖点缀色 */
+            --light-bg: #f8fafc;
+            --dark-text: #2d3748;
+            --light-text: #718096;
+            --cat-color: #FFB6C1; /* 小猫粉色 */
+            --fox-color: #FFA500; /* 狐狸橙色 */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark-text);
+            line-height: 1.8;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 页眉样式 */
+        .header {
+            text-align: center;
+            padding: 40px 20px 30px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(74, 111, 165, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* 时间线容器 */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: var(--secondary-color);
+            opacity: 0.3;
+        }
+
+        /* 时间线项目 */
+        .timeline-item {
+            display: flex;
+            margin-bottom: 50px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 0 0 4px var(--accent-color);
+            z-index: 2;
+        }
+
+        .timeline-content {
+            width: calc(50% - 40px);
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            right: -10px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent white;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            left: -10px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+
+        .timeline-date {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timeline-title {
+            color: var(--dark-text);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .timeline-text {
+            color: var(--light-text);
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        /* 可评论文本样式 */
+        .commentable-text {
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            position: relative;
+            border-bottom: 1px dashed transparent;
+        }
+
+        .commentable-text:hover {
+            background-color: rgba(255, 154, 139, 0.2);
+            box-shadow: 0 0 0 2px rgba(255, 154, 139, 0.3);
+            border-bottom-color: var(--accent-color);
+        }
+
+        .commentable-text.selected {
+            background-color: rgba(255, 154, 139, 0.4);
+            box-shadow: 0 0 0 2px var(--accent-color);
+        }
+
+        /* 评论弹窗样式 */
+        .comment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 编辑按钮 */
+        .edit-btn {
+            position: absolute;
+            top: 12px;
+            right: 50px;
+            background: transparent;
+            border: none;
+            color: var(--light-text);
+            cursor: pointer;
+            font-size: 0.95rem;
+            padding: 6px 8px;
+            border-radius: 6px;
+        }
+
+        .edit-btn:hover {
+            background: rgba(0,0,0,0.04);
+            color: var(--primary-color);
+        }
+
+        /* 删除按钮 */
+        .delete-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: transparent;
+            border: none;
+            color: var(--light-text);
+            cursor: pointer;
+            font-size: 0.95rem;
+            padding: 6px 8px;
+            border-radius: 6px;
+        }
+
+        .delete-btn:hover {
+            background: rgba(255,0,0,0.1);
+            color: #e74c3c;
+        }
+
+        .add-stage-btn {
+            display: inline-block;
+            margin: 10px 0 20px;
+            padding: 8px 12px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(74,111,165,0.15);
+        }
+
+        .add-stage-btn:hover { background: #3f5f90; }
+
+        .comment-modal.active {
+            display: flex;
+        }
+
+        .comment-modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .comment-modal-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .comment-modal-header h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .selected-text-preview {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-style: italic;
+        }
+
+        .author-selection {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .author-option {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .author-option:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        .author-option.selected {
+            border-color: var(--accent-color);
+            background-color: rgba(255, 154, 139, 0.1);
+        }
+
+        .author-option.cat {
+            border-color: var(--cat-color);
+        }
+
+        .author-option.cat.selected {
+            background-color: rgba(255, 182, 193, 0.2);
+        }
+
+        .author-option.fox {
+            border-color: var(--fox-color);
+        }
+
+        .author-option.fox.selected {
+            background-color: rgba(255, 165, 0, 0.2);
+        }
+
+        .author-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .author-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .comment-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: vertical;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        .comment-textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(255, 154, 139, 0.2);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn.cancel {
+            background-color: #f1f3f4;
+            color: #5f6368;
+        }
+
+        .modal-btn.cancel:hover {
+            background-color: #dadce0;
+        }
+
+        .modal-btn.submit {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .modal-btn.submit:hover {
+            background-color: #ff7a6b;
+            transform: translateY(-2px);
+        }
+
+        .modal-btn.submit:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* 侧边评论气泡 */
+        .side-comment {
+            position: absolute;
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            max-width: 300px;
+            z-index: 100;
+            animation: commentAppear 0.3s ease-out;
+            border: 2px solid;
+        }
+
+        @keyframes commentAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .timeline-content {
+            width: calc(50% - 40px);
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            right: -10px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent white;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            left: -10px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+
+        .timeline-date {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timeline-title {
+            color: var(--dark-text);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .timeline-text {
+            color: var(--light-text);
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        /* 可评论文本样式 */
+        .commentable-text {
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            position: relative;
+            border-bottom: 1px dashed transparent;
+        }
+
+        .commentable-text:hover {
+            background-color: rgba(255, 154, 139, 0.2);
+            box-shadow: 0 0 0 2px rgba(255, 154, 139, 0.3);
+            border-bottom-color: var(--accent-color);
+        }
+
+        .commentable-text.selected {
+            background-color: rgba(255, 154, 139, 0.4);
+            box-shadow: 0 0 0 2px var(--accent-color);
+        }
+
+        /* 评论弹窗样式 */
+        .comment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .comment-modal.active {
+            display: flex;
+        }
+
+        .comment-modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .comment-modal-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .comment-modal-header h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .selected-text-preview {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-style: italic;
+        }
+
+        .author-selection {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .author-option {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .author-option:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        .author-option.selected {
+            border-color: var(--accent-color);
+            background-color: rgba(255, 154, 139, 0.1);
+        }
+
+        .author-option.cat {
+            border-color: var(--cat-color);
+        }
+
+        .author-option.cat.selected {
+            background-color: rgba(255, 182, 193, 0.2);
+        }
+
+        .author-option.fox {
+            border-color: var(--fox-color);
+        }
+
+        .author-option.fox.selected {
+            background-color: rgba(255, 165, 0, 0.2);
+        }
+
+        .author-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .author-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .comment-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: vertical;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        .comment-textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(255, 154, 139, 0.2);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn.cancel {
+            background-color: #f1f3f4;
+            color: #5f6368;
+        }
+
+        .modal-btn.cancel:hover {
+            background-color: #dadce0;
+        }
+
+        .modal-btn.submit {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .modal-btn.submit:hover {
+            background-color: #ff7a6b;
+            transform: translateY(-2px);
+        }
+
+        .modal-btn.submit:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* 侧边评论气泡 */
+        .side-comment {
+            position: absolute;
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            max-width: 300px;
+            z-index: 100;
+            animation: commentAppear 0.3s ease-out;
+            border: 2px solid;
+        }
+
+        @keyframes commentAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .side-comment.cat {
+            border-color: var(--cat-color);
+        }
+
+        .side-comment.fox {
+            border-color: var(--fox-color);
+        }
+
+        .side-comment::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        .side-comment.left::before {
+            right: -12px;
+            top: 20px;
+            border-width: 12px 0 12px 12px;
+        }
+
+        .side-comment.cat.left::before {
+            border-color: transparent transparent transparent var(--cat-color);
+        }
+
+        .side-comment.fox.left::before {
+            border-color: transparent transparent transparent var(--fox-color);
+        }
+
+        .side-comment.right::before {
+            left: -12px;
+            top: 20px;
+            border-width: 12px 12px 12px 0;
+        }
+
+        .side-comment.cat.right::before {
+            border-color: transparent var(--cat-color) transparent transparent;
+        }
+
+        .side-comment.fox.right::before {
+            border-color: transparent var(--fox-color) transparent transparent;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            position: relative;
+            padding-right: 25px;
+        }
+
+        .comment-author-icon {
+            font-size: 1.2rem;
+            margin-right: 8px;
+        }
+
+        .comment-author-name {
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .comment-content {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--dark-text);
+        }
+
+        .comment-time {
+            font-size: 0.75rem;
+            color: var(--light-text);
+            margin-top: 8px;
+            text-align: right;
+        }
+
+        /* 删除按钮样式 */
+        .delete-comment-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.1);
+            border: none;
+            color: #666;
+            font-size: 16px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .side-comment:hover .delete-comment-btn {
+            opacity: 1;
+        }
+
+        .delete-comment-btn:hover {
+            background: #ff6b6b;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* 聊天记录样式 */
+        .chat-bubble {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 18px;
+            margin: 10px 0;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .chat-left {
+            background: #e6f7ff;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .chat-right {
+            background: var(--primary-color);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+            margin-left: auto;
+        }
+
+        .chat-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        /* 照片墙 */
+        .photo-wall {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .photo-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            height: 200px;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            font-size: 0.9rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .photo-item:hover .photo-caption {
+            transform: translateY(0);
+        }
+
+        /* 特殊段落样式 */
+        .highlight-box {
+            background: linear-gradient(135deg, #f0f7ff, #e6f0ff);
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .memory-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .memory-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                flex-direction: row !important;
+                margin-left: 40px;
+            }
+            
+            .timeline-dot {
+                left: 20px;
+            }
+            
+            .timeline-content {
+                width: 100%;
+            }
+            
+            .timeline-content::before {
+                display: none;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .photo-wall {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .side-comment {
+                max-width: 250px;
+            }
+            
+            .author-selection {
+                flex-direction: column;
+            }
+            
+            .modal-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .modal-btn {
+                width: 100%;
+            }
+        }
+        
+        /* 页面容器样式 */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        /* 侧边导航栏 */
+        .sidebar-nav {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar-nav li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-nav a {
+            display: block;
+            padding: 8px 12px;
+            color: var(--dark-text);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-nav a:hover {
+            background: var(--light-bg);
+            color: var(--primary-color);
+        }
+        
+        .sidebar-nav a.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        /* 主页内容区域 */
+        .home-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        
+        /* 领导弹窗样式 */
+        .leader-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .leader-modal.active {
+            display: flex;
+        }
+        
+        .leader-modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .leader-name {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .leader-info {
+            line-height: 1.8;
+            color: var(--dark-text);
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--light-text);
+        }
+        
+        .close-btn:hover {
+            color: var(--primary-color);
+        }
+
+        /* 领导图片展示区域样式 */
+        .leader-images {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            border: 1px solid rgba(74, 111, 165, 0.2);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .leader-images.active {
+            display: block;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .leader-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .leader-image:hover {
+            transform: scale(1.05);
+        }
+
+        .leader-item.expanded {
+            background: rgba(74, 111, 165, 0.05);
+        }
+
+        .leader-item::after {
+            content: '▶';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%) rotate(0deg);
+            transition: transform 0.3s ease;
+            color: var(--primary-color);
+        }
+
+        .leader-item.expanded::after {
+            transform: translateY(-50%) rotate(90deg);
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="top-navigation" id="topNavigation">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#timeline" class="nav-link" data-page="timeline">时间线</a></li>
+                <li class="nav-item"><a href="#home" class="nav-link" data-page="home">主页</a></li>
+                <li class="nav-item"><a href="#organization" class="nav-link" data-page="organization">组织机构</a></li>
+                <li class="nav-item"><a href="#past-leaders" class="nav-link" data-page="past-leaders">历任领导</a></li>
+                <li class="nav-item"><a href="#current-leaders" class="nav-link" data-page="current-leaders">现任领导</a></li>
+                <li class="nav-item"><a href="#famous-people" class="nav-link" data-page="famous-people">历史名人</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 状态指示器 -->
+    <div class="status-indicator" id="statusIndicator"></div>
+
+    <!-- 编辑弹窗 -->
+    <div class="comment-modal" id="editModal">
+        <div class="comment-modal-content">
+            <div class="comment-modal-header">
+                <h3>编辑时间线内容</h3>
+            </div>
+            <div class="modal-form">
+                <div style="margin-bottom: 15px;">
+                    <input type="text" id="editDateInput" placeholder="时间（例如 1902-1911）" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:6px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <input type="text" id="editTitleInput" placeholder="标题（例如 肇基初创）" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:6px;">
+                </div>
+                <textarea class="comment-textarea" id="editContentTextarea" placeholder="填写或粘贴分段内容（换行会被拆成段落）"></textarea>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeEditModal()">取消</button>
+                <button class="modal-btn submit" id="saveEditBtn" onclick="saveEdit()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 评论弹窗 -->
+    <div class="comment-modal" id="commentModal">
+        <div class="comment-modal-content">
+            <div class="comment-modal-header">
+                <h3>添加评论</h3>
+            </div>
+            <div class="selected-text-preview" id="selectedTextPreview">
+                请选择要评论的文本...
+            </div>
+            <div class="author-input" style="margin-bottom:12px; text-align:center;">
+                <input type="text" id="commentAuthorInput" placeholder="请输入昵称（将作为评论显示）" style="width:70%; padding:8px; border:1px solid #ddd; border-radius:6px;">
+            </div>
+            <textarea class="comment-textarea" id="commentTextarea" placeholder="写下你的评论..."></textarea>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeCommentModal()">取消</button>
+                <button class="modal-btn submit" id="submitCommentBtn" onclick="submitComment()" disabled>发表评论</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 领导弹窗 -->
+    <div class="leader-modal" id="leaderModal">
+        <div class="leader-modal-content">
+            <button class="close-btn" onclick="closeLeaderModal()">×</button>
+            <div class="leader-name" id="leaderModalName"></div>
+            <div class="leader-info" id="leaderModalInfo"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 时间线页面 -->
+        <div id="timeline" class="page active">
+            <div class="header">
+                <h1>北京师范大学</h1>
+                <div class="subtitle">百年师范，教育之光</div>
+            </div>
+            
+            <div class="timeline-controls" style="text-align: center; margin-bottom: 30px;">
+                <button class="add-stage-btn" id="addStageBtn">+ 添加阶段</button>
+                <button class="add-stage-btn" id="loadTimelineBtn" style="background:#6b8cbc;">🔄 加载时间线</button>
+            </div>
+            
+            <div class="timeline">
+                <!-- 时间线内容将在这里动态生成 -->
+            </div>
+        </div>
+
+        <!-- 主页页面 -->
+        <div id="home" class="page">
+            <!-- 侧面导航栏 -->
+            <div class="sidebar-nav">
+                <ul>
+                    <li><a href="#home-overview">学校概况</a></li>
+                    <li><a href="#home-history">历史沿革</a></li>
+                    <li><a href="#home-disciplines">学科建设</a></li>
+                    <li><a href="#home-faculty">师资力量</a></li>
+                    <li><a href="#home-students">学生培养</a></li>
+                    <li><a href="#home-research">科学研究</a></li>
+                    <li><a href="#home-international">国际交流</a></li>
+                    <li><a href="#home-campus">校园生活</a></li>
+                </ul>
+            </div>
+            
+            <!-- 主页内容 -->
+            <div class="home-content">
+                <section id="home-overview" class="section">
+                    <h2>学校概况</h2>
+                    <p>北京师范大学，坐落于首都北京，是中国近现代高等师范教育的发源地与重要里程碑。其历史可追溯至1902年创立的京师大学堂师范馆，开启了中国现代高等师范教育的先河。1923年，学校正式更名为北京师范大学，成为中国历史上第一所冠以"师范大学"之名的高等学府。百余年来，北师大始终秉承"爱国进步、诚信质朴、求真创新、为人师表"的优良传统和"学为人师，行为世范"的校训精神，与国家民族命运紧密相连，发展成为一所以教师教育、教育科学和文理基础学科为主要特色的综合性、研究型、世界知名的大学。</p>
+                    <p>北师大诞生于民族危难、教育图新之际。从京师大学堂师范馆，到北京高等师范学校，再到国立北平师范大学，学校在五四运动、"一二·九"运动等重大历史关头都留下了鲜明的爱国印记。李大钊、鲁迅、梁启超、钱玄同、黎锦熙等一大批学术巨匠和思想先驱曾在此弘文励教，奠定了学校深厚的人文底蕴与学术基石。新中国成立后，学校被确定为全国重点大学，承担起为国家培养高层次师资和教育管理人才的重任。改革开放以来，特别是进入21世纪，北师大先后入选"211工程"、"985工程"重点建设高校，并首批入选国家"双一流"建设A类高校名单，迎来了全新的发展机遇。</p>
+                    <p>学校构建了以教育学、心理学、中国语言文学、中国史、数学、地理学、系统科学、生态学、环境科学与工程、戏剧与影视学等优势学科为引领的综合性学科体系。在全国第四轮学科评估中，教育学、心理学、中国语言文学、中国史、戏剧与影视学、地理学等学科位列前茅。其中，教育学、心理学长期稳居全国顶尖水平，引领着中国教育科学研究和教师教育发展的方向。</p>
+                </section>
+
+                <section id="home-history" class="section">
+                    <h2>历史沿革</h2>
+                    <p>北京师范大学的发展历程，是一部中国近现代师范教育诞生、成长与壮大的缩影。从清末"兴学育才"的救国实践，到新时代"双一流"建设的教育高地，其百廿年历程大致可分为以下几个关键阶段：</p>
+                    
+                    <div class="highlight-box">
+                        <h3>第一阶段：肇基初创，师范先声 (1902-1911)</h3>
+                        <p>1902年：清政府在京师大学堂内设立"师范馆"，于12月17日开学。这被视为北京师范大学的肇始之日，也是中国现代高等师范教育的开端。</p>
+                        <p>1908年：师范馆更名为"京师优级师范学堂"，成为中国第一所独立设置的国立高等师范学校。</p>
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <h3>第二阶段：独立建制，体系初成 (1912-1937)</h3>
+                        <p>1912年：学校改名为"北京高等师范学校"，在校长陈宝泉等人主持下进行系列改革。</p>
+                        <p>1923年：学校正式更名为"北京师范大学校"，成为中国历史上第一所师范大学。</p>
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <h3>第三阶段：烽火西迁，弦歌不辍 (1937-1949)</h3>
+                        <p>抗日战争期间，学校西迁陕西，组成"国立西北联合大学"，在极其艰苦的条件下坚持教学与研究。</p>
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <h3>第四阶段：新中国建设，调整发展 (1949-1977)</h3>
+                        <p>1949年：学校更名为"北京师范大学"，毛泽东主席亲笔题写校名。</p>
+                        <p>1952年：全国高校院系调整，学校定位更加聚焦于文理基础学科和教育科学。</p>
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <h3>第五阶段：改革开放，复兴腾飞 (1978-1999)</h3>
+                        <p>1978年：恢复全国统一招生，教学科研秩序逐步恢复正常。</p>
+                        <p>1996年：入选国家首批"211工程"重点建设大学。</p>
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <h3>第六阶段：世纪跨越，战略拓展 (2000-2016)</h3>
+                        <p>2002年：百年校庆，提出建设"综合性、有特色、研究型的世界知名高水平大学"的奋斗目标。</p>
+                        <p>2006年：入选"985工程"优势学科创新平台建设高校。</p>
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <h3>第七阶段：新时代，"双一流"引领 (2017年至今)</h3>
+                        <p>2017年：入选国家"双一流"建设高校A类名单，11个学科入选"双一流"建设学科。</p>
+                        <p>2022年：隆重举行建校120周年庆祝活动。</p>
+                    </div>
+                </section>
+
+                <section id="home-disciplines" class="section">
+                    <h2>学科建设</h2>
+                    <p>北京师范大学构建了以教师教育、教育科学和文理基础学科为主要特色的综合性学科体系。学校现有本科专业74个，硕士学位授权一级学科38个，博士学位授权一级学科32个，博士后科研流动站28个。</p>
+                    
+                    <h3>优势学科</h3>
+                    <ul>
+                        <li><strong>教育学</strong>：全国顶尖水平，引领中国教育科学研究</li>
+                        <li><strong>心理学</strong>：认知神经科学与学习国家重点实验室</li>
+                        <li><strong>中国语言文学</strong>：深厚的文化底蕴和学术传统</li>
+                        <li><strong>中国史</strong>：历史研究和文化传承的重要基地</li>
+                        <li><strong>数学</strong>：基础数学和应用数学并重</li>
+                        <li><strong>地理学</strong>：地表过程与资源生态国家重点实验室</li>
+                        <li><strong>系统科学</strong>：复杂性科学和系统理论研究</li>
+                        <li><strong>生态学</strong>：生态环境保护和可持续发展研究</li>
+                        <li><strong>环境科学与工程</strong>：环境污染控制和生态修复</li>
+                        <li><strong>戏剧与影视学</strong>：艺术教育和文化创意产业</li>
+                        <li><strong>语言学</strong>：语言认知和语言教育研究</li>
+                    </ul>
+                    
+                    <h3>学科平台</h3>
+                    <ul>
+                        <li>11个"双一流"建设学科</li>
+                        <li>6个国家重点学科</li>
+                        <li>2个国家重点实验室</li>
+                        <li>多个教育部重点实验室和工程研究中心</li>
+                    </ul>
+                </section>
+
+                <section id="home-faculty" class="section">
+                    <h2>师资力量</h2>
+                    <p>北京师范大学拥有一支高水平的师资队伍，现有教职工3400余人，其中专任教师2200余人，教授700余人，副教授800余人。</p>
+                    
+                    <h3>高层次人才</h3>
+                    <ul>
+                        <li>中国科学院院士、中国工程院院士20余人</li>
+                        <li>国家"千人计划"入选者、"长江学者"特聘教授50余人</li>
+                        <li>国家杰出青年科学基金获得者60余人</li>
+                        <li>国家级教学名师10余人</li>
+                        <li>教育部"新世纪优秀人才支持计划"入选者100余人</li>
+                    </ul>
+                    
+                    <h3>师资特色</h3>
+                    <ul>
+                        <li><strong>学术领军人物</strong>：在各学科领域具有重要影响力的学术带头人</li>
+                        <li><strong>青年教师队伍</strong>：充满活力的中青年学术骨干</li>
+                        <li><strong>国际化师资</strong>：具有海外留学和工作经历的教师比例高</li>
+                        <li><strong>教学科研并重</strong>：既重视科学研究，也注重教学质量</li>
+                    </ul>
+                    
+                    <h3>师资建设</h3>
+                    <ul>
+                        <li>实施"京师学者"计划，引进和培养高层次人才</li>
+                        <li>建立青年教师成长支持体系</li>
+                        <li>加强师德师风建设，弘扬"学为人师，行为世范"的校训精神</li>
+                        <li>推进教师国际化，提升国际学术影响力</li>
+                    </ul>
+                </section>
+
+                <section id="home-students" class="section">
+                    <h2>学生培养</h2>
+                    <p>北京师范大学坚持"立德树人"的根本任务，致力于培养德智体美劳全面发展的社会主义建设者和接班人。学校现有全日制在校生近3万人，其中本科生约1.5万人，研究生约1.5万人。</p>
+                    
+                    <h3>本科生教育</h3>
+                    <ul>
+                        <li><strong>通识教育</strong>：实施通识教育与专业教育相结合的培养模式</li>
+                        <li><strong>创新创业教育</strong>：建立创新创业教育体系，培养学生创新精神</li>
+                        <li><strong>国际化培养</strong>：推进学生国际交流，拓展国际视野</li>
+                        <li><strong>实践教学</strong>：加强实践环节，提升学生实践能力</li>
+                    </ul>
+                    
+                    <h3>研究生教育</h3>
+                    <ul>
+                        <li><strong>学术型研究生</strong>：注重学术创新能力和科研素养培养</li>
+                        <li><strong>专业学位研究生</strong>：面向行业需求，培养高层次应用型人才</li>
+                        <li><strong>博士研究生</strong>：培养具有国际视野的拔尖创新人才</li>
+                        <li><strong>导师队伍建设</strong>：实行导师负责制，加强导师队伍建设</li>
+                    </ul>
+                    
+                    <h3>人才培养特色</h3>
+                    <ul>
+                        <li><strong>师范特色</strong>：为基础教育培养高素质师资</li>
+                        <li><strong>交叉融合</strong>：促进学科交叉，培养复合型人才</li>
+                        <li><strong>个性化发展</strong>：尊重学生个性，支持多元化成长</li>
+                        <li><strong>全过程育人</strong>：构建全员、全过程、全方位育人格局</li>
+                    </ul>
+                </section>
+
+                <section id="home-research" class="section">
+                    <h2>科学研究</h2>
+                    <p>北京师范大学是国家重要的科学研究基地，在基础研究和应用研究方面取得了丰硕成果。学校年均科研经费超过20亿元，承担大量国家级重大科研项目。</p>
+                    
+                    <h3>科研平台</h3>
+                    <ul>
+                        <li><strong>认知神经科学与学习国家重点实验室</strong>：脑科学与学习研究的重要基地</li>
+                        <li><strong>地表过程与资源生态国家重点实验室</strong>：地理学和生态学研究的重要平台</li>
+                        <li><strong>遥感科学国家重点实验室</strong>：遥感技术和应用研究</li>
+                        <li><strong>多个教育部重点实验室和工程研究中心</strong></li>
+                        <li><strong>北京市重点实验室和工程技术研究中心</strong></li>
+                    </ul>
+                    
+                    <h3>科研成就</h3>
+                    <ul>
+                        <li>年均发表SCI/SSCI论文2000余篇</li>
+                        <li>获得国家自然科学奖、国家科技进步奖等国家级奖励</li>
+                        <li>在Nature、Science等顶级期刊发表重要研究成果</li>
+                        <li>承担国家重大科研项目和重点研发计划</li>
+                        <li>服务国家重大战略需求，提供决策咨询</li>
+                    </ul>
+                    
+                    <h3>科研特色</h3>
+                    <ul>
+                        <li><strong>基础研究</strong>：重视基础理论研究，推动学科发展</li>
+                        <li><strong>应用研究</strong>：面向国家需求，服务经济社会发展</li>
+                        <li><strong>交叉研究</strong>：促进学科交叉融合，培育新的增长点</li>
+                        <li><strong>国际合作</strong>：加强国际科研合作，提升国际影响力</li>
+                    </ul>
+                </section>
+
+                <section id="home-international" class="section">
+                    <h2>国际交流</h2>
+                    <p>北京师范大学积极推进国际化战略，与全球300多所高校和科研机构建立了合作关系，在国际教育交流与合作方面取得了显著成效。</p>
+                    
+                    <h3>国际合作网络</h3>
+                    <ul>
+                        <li>与哈佛大学、牛津大学、剑桥大学等世界一流大学建立合作关系</li>
+                        <li>加入"一带一路"高校联盟等国际教育组织</li>
+                        <li>建立孔子学院，推广汉语和中国文化</li>
+                        <li>举办国际学术会议，促进学术交流</li>
+                    </ul>
+                    
+                    <h3>学生国际交流</h3>
+                    <ul>
+                        <li>年均派出1000余名学生赴海外交流学习</li>
+                        <li>接收来自100多个国家的国际学生</li>
+                        <li>开展双学位、联合培养等国际合作项目</li>
+                        <li>设立国际学生奖学金，吸引优秀国际学生</li>
+                    </ul>
+                    
+                    <h3>教师国际合作</h3>
+                    <ul>
+                        <li>聘请海外知名学者担任客座教授</li>
+                        <li>支持教师赴海外访学和研究</li>
+                        <li>开展国际合作科研项目</li>
+                        <li>建立国际联合实验室和研究中心</li>
+                    </ul>
+                    
+                    <h3>国际化校园</h3>
+                    <ul>
+                        <li>建设国际化课程体系</li>
+                        <li>营造多元文化融合的校园环境</li>
+                        <li>提供多语种服务和支持</li>
+                        <li>举办国际文化节等活动</li>
+                    </ul>
+                </section>
+
+                <section id="home-campus" class="section">
+                    <h2>校园生活</h2>
+                    <p>北京师范大学拥有优美的校园环境和丰富的校园文化生活，为学生提供全面的成长支持和发展平台。</p>
+                    
+                    <h3>校园环境</h3>
+                    <ul>
+                        <li><strong>主校区</strong>：位于海淀区，交通便利，环境优美</li>
+                        <li><strong>昌平校区</strong>：新建校区，设施先进，环境宜人</li>
+                        <li><strong>珠海校区</strong>：与北京校区同水平、同标准办学</li>
+                        <li><strong>校园设施</strong>：图书馆、体育馆、学生活动中心等设施齐全</li>
+                    </ul>
+                    
+                    <h3>学生活动</h3>
+                    <ul>
+                        <li><strong>社团活动</strong>：200多个学生社团，涵盖学术、文艺、体育等领域</li>
+                        <li><strong>志愿服务</strong>：开展各类志愿服务活动，培养学生社会责任感</li>
+                        <li><strong>文艺活动</strong>：举办音乐会、话剧、舞蹈等文艺演出</li>
+                        <li><strong>体育活动</strong>：组织各类体育比赛和健身活动</li>
+                    </ul>
+                    
+                    <h3>学生服务</h3>
+                    <ul>
+                        <li><strong>学业指导</strong>：提供学业咨询和辅导服务</li>
+                        <li><strong>心理辅导</strong>：建立心理健康教育和服务体系</li>
+                        <li><strong>就业指导</strong>：开展职业生涯规划和就业指导</li>
+                        <li><strong>生活服务</strong>：提供完善的生活设施和服务</li>
+                    </ul>
+                    
+                    <h3>校园文化</h3>
+                    <ul>
+                        <li><strong>校训精神</strong>："学为人师，行为世范"</li>
+                        <li><strong>学术氛围</strong>：浓厚的学术氛围和人文气息</li>
+                        <li><strong>传统活动</strong>：校庆、开学典礼、毕业典礼等传统活动</li>
+                        <li><strong>校友文化</strong>：强大的校友网络和校友支持</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+        <!-- 组织机构页面 -->
+        <div id="organization" class="page">
+            <div class="header">
+                <h1>组织机构</h1>
+                <div class="subtitle">科学管理，高效运行</div>
+            </div>
+            
+            <div class="home-content">
+                <section class="section">
+                    <h2>学部设置</h2>
+                    <ul>
+                        <li><strong>教育学部</strong>：教育学、学前教育、特殊教育等</li>
+                        <li><strong>心理学部</strong>：心理学、应用心理学、认知神经科学等</li>
+                        <li><strong>文学院</strong>：中国语言文学、汉语国际教育、古典文献学等</li>
+                        <li><strong>历史学院</strong>：历史学、考古学、文化遗产等</li>
+                        <li><strong>数学科学学院</strong>：数学与应用数学、信息与计算科学等</li>
+                        <li><strong>物理学系</strong>：物理学、应用物理学等</li>
+                        <li><strong>化学学院</strong>：化学、应用化学、材料化学等</li>
+                        <li><strong>生命科学学院</strong>：生物学、生物技术、生态学等</li>
+                        <li><strong>地理科学学部</strong>：地理科学、资源环境科学、GIS等</li>
+                        <li><strong>信息科学与技术学院</strong>：计算机科学与技术、软件工程等</li>
+                        <li><strong>经济与工商管理学院</strong>：经济学、工商管理、会计学等</li>
+                        <li><strong>法学院</strong>：法学、知识产权等</li>
+                        <li><strong>社会学院</strong>：社会学、社会工作、人类学等</li>
+                        <li><strong>新闻传播学院</strong>：新闻学、传播学、广告学等</li>
+                        <li><strong>艺术与传媒学院</strong>：美术学、设计学、戏剧影视学等</li>
+                        <li><strong>体育与运动学院</strong>：体育教育、运动训练等</li>
+                        <li><strong>环境学院</strong>：环境科学、环境工程等</li>
+                        <li><strong>政府管理学院</strong>：公共管理、政治学等</li>
+                        <li><strong>马克思主义学院</strong>：思想政治教育、马克思主义理论等</li>
+                        <li><strong>国际中文教育学院</strong>：汉语国际教育、对外汉语等</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>职能部门</h2>
+                    <ul>
+                        <li><strong>校长办公室</strong>：学校行政事务协调和管理</li>
+                        <li><strong>组织部</strong>：干部管理和党组织建设</li>
+                        <li><strong>宣传部</strong>：宣传思想工作和校园文化建设</li>
+                        <li><strong>人事处</strong>：人才引进和人事管理</li>
+                        <li><strong>教务处</strong>：教学管理和教学质量监控</li>
+                        <li><strong>科研处</strong>：科研项目管理和成果转化</li>
+                        <li><strong>学生处</strong>：学生管理和思想政治教育</li>
+                        <li><strong>财务处</strong>：财务管理和预算执行</li>
+                        <li><strong>国际合作与交流处</strong>：国际交流与合作事务</li>
+                        <li><strong>后勤管理处</strong>：后勤保障和服务管理</li>
+                        <li><strong>保卫处</strong>：校园安全和治安管理</li>
+                        <li><strong>发展规划处</strong>：学校发展规划和战略研究</li>
+                        <li><strong>研究生院</strong>：研究生教育和学位管理</li>
+                        <li><strong>继续教育学院</strong>：继续教育和培训管理</li>
+                        <li><strong>图书馆</strong>：文献资源建设和服务</li>
+                        <li><strong>信息网络中心</strong>：校园网络和信息服务</li>
+                        <li><strong>档案馆</strong>：档案管理和校史研究</li>
+                        <li><strong>校医院</strong>：医疗服务和卫生保健</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>直属单位</h2>
+                    <ul>
+                        <li><strong>附属中学</strong>：北京师范大学附属实验中学等</li>
+                        <li><strong>附属小学</strong>：北京师范大学附属实验小学等</li>
+                        <li><strong>出版社</strong>：北京师范大学出版社</li>
+                        <li><strong>学报编辑部</strong>：各学科学报编辑出版</li>
+                        <li><strong>教育基金会</strong>：教育捐赠和基金管理</li>
+                        <li><strong>校友会</strong>：校友联络和服务</li>
+                        <li><strong>校办产业</strong>：校办企业管理和运营</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>学术机构</h2>
+                    <ul>
+                        <li><strong>学术委员会</strong>：学术事务决策和咨询</li>
+                        <li><strong>学位评定委员会</strong>：学位授予和质量管理</li>
+                        <li><strong>教学指导委员会</strong>：教学改革和质量提升</li>
+                        <li><strong>科研伦理委员会</strong>：科研伦理审查和监督</li>
+                        <li><strong>各学科专业委员会</strong>：学科建设和专业发展</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>管理特色</h2>
+                    <ul>
+                        <li><strong>党委领导下的校长负责制</strong>：坚持党的领导，完善治理结构</li>
+                        <li><strong>学术权力与行政权力协调</strong>：尊重学术规律，提高管理效能</li>
+                        <li><strong>校院两级管理</strong>：重心下移，激发学院活力</li>
+                        <li><strong>民主管理和监督</strong>：教职工代表大会、学生代表大会等</li>
+                        <li><strong>信息化管理</strong>：推进智慧校园建设，提升管理效率</li>
+                        <li><strong>服务型管理</strong>：以师生为中心，提供优质服务</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+        <!-- 历任领导页面 -->
+        <div id="past-leaders" class="page">
+            <div class="header">
+                <h1>历任领导</h1>
+                <div class="subtitle">薪火相传，继往开来</div>
+            </div>
+            
+            <div class="home-content">
+                <section class="section">
+                    <h2>历任校长</h2>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>陈宝泉（1902-1912）</h3>
+                        <p>京师大学堂师范馆首任监督，中国近代师范教育的奠基人之一。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="陈宝泉" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>范源濂（1912-1913）</h3>
+                        <p>北京高等师范学校首任校长，近代著名教育家、政治家。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="范源濂" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>李蒸（1932-1948）</h3>
+                        <p>北京师范大学校长，著名教育学家。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="李蒸" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>陈垣（1948-1952）</h3>
+                        <p>北京师范大学校长，著名历史学家、教育家。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="陈垣" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>何锡麟（1952-1958）</h3>
+                        <p>北京师范大学校长。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="何锡麟" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>陈垣（1958-1971）</h3>
+                        <p>北京师范大学校长，著名历史学家、教育家。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="陈垣" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>白寿彝（1978-1984）</h3>
+                        <p>北京师范大学校长，著名历史学家。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="白寿彝" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>王梓坤（1984-1989）</h3>
+                        <p>北京师范大学校长，著名数学家、教育家。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="王梓坤" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>方福康（1989-1995）</h3>
+                        <p>北京师范大学校长，物理学家。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="方福康" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="方福康" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="方福康" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>陆善镇（1995-1999）</h3>
+                        <p>北京师范大学校长，数学家。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="陆善镇" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="陆善镇" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="陆善镇" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>袁贵仁（1999-2001）</h3>
+                        <p>北京师范大学校长，后任教育部部长。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="袁贵仁" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="袁贵仁" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="袁贵仁" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>钟秉林（2001-2012）</h3>
+                        <p>北京师范大学校长，教育学家。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="钟秉林" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="钟秉林" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="钟秉林" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>董奇（2012-2022）</h3>
+                        <p>北京师范大学校长，心理学家。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="董奇" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="董奇" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="董奇" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>历任党委书记</h2>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>何锡麟（1952-1958）</h3>
+                        <p>北京师范大学党委书记。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="何锡麟" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="何锡麟" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="何锡麟" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>程今吾（1958-1966）</h3>
+                        <p>北京师范大学党委书记。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="程今吾" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="程今吾" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="程今吾" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>聂真（1978-1982）</h3>
+                        <p>北京师范大学党委书记。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="聂真" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="聂真" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="聂真" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>王梓坤（1984-1989）</h3>
+                        <p>北京师范大学党委书记。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="王梓坤" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="王梓坤" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="王梓坤" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>周之良（1989-1995）</h3>
+                        <p>北京师范大学党委书记。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="周之良" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="周之良" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="周之良" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>袁贵仁（1999-2001）</h3>
+                        <p>北京师范大学党委书记。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="袁贵仁" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="袁贵仁" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="袁贵仁" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>陈文博（2001-2008）</h3>
+                        <p>北京师范大学党委书记。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="陈文博" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="陈文博" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="陈文博" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>刘川生（2008-2016）</h3>
+                        <p>北京师范大学党委书记。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="刘川生" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="刘川生" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="刘川生" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>程建平（2016年至今）</h3>
+                        <p>北京师范大学党委书记。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="程建平" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>领导贡献</h2>
+                    <p>北京师范大学的历任领导为学校的发展做出了重要贡献，他们的智慧和努力推动了学校的不断进步。</p>
+                    
+                    <h3>历史贡献</h3>
+                    <ul>
+                        <li><strong>奠基时期</strong>：陈宝泉、范源濂等奠定了学校的基础</li>
+                        <li><strong>抗战时期</strong>：李蒸等领导学校西迁，坚持办学</li>
+                        <li><strong>建设时期</strong>：陈垣等推动学校在新中国的发展</li>
+                        <li><strong>改革开放</strong>：白寿彝、王梓坤等引领学校复兴</li>
+                        <li><strong>新世纪发展</strong>：钟秉林、董奇等推动学校迈向世界一流</li>
+                    </ul>
+                    
+                    <h3>领导特色</h3>
+                    <ul>
+                        <li><strong>学术领导</strong>：多数校长是著名学者，具有深厚的学术背景</li>
+                        <li><strong>教育情怀</strong>：对教育事业充满热情，致力于人才培养</li>
+                        <li><strong>改革创新</strong>：勇于改革创新，推动学校发展</li>
+                        <li><strong>国际视野</strong>：具有国际视野，推动学校国际化</li>
+                        <li><strong>服务国家</strong>：紧密服务国家战略，贡献社会发展</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+        <!-- 现任领导页面 -->
+        <div id="current-leaders" class="page">
+            <div class="header">
+                <h1>现任领导</h1>
+                <div class="subtitle">引领发展，开创未来</div>
+            </div>
+            
+            <div class="home-content">
+                <section class="section">
+                    <h2>学校领导团队</h2>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>党委书记：程建平</h3>
+                        <p>主持学校党委全面工作。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="程建平" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="程建平" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="程建平" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>校长：马骏</h3>
+                        <p>主持学校行政全面工作。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="马骏" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>党委副书记：刘长旭</h3>
+                        <p>协助党委书记开展工作。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="刘长旭" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>党委副书记：王守军</h3>
+                        <p>协助党委书记开展工作。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="王守军" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>党委副书记：李晓兵</h3>
+                        <p>协助党委书记开展工作。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="李晓兵" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>副校长：周作宇</h3>
+                        <p>协助校长开展工作。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="周作宇" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>副校长：王守军</h3>
+                        <p>协助校长开展工作。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="王守军" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>副校长：陈丽</h3>
+                        <p>协助校长开展工作。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="陈丽" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>副校长：康震</h3>
+                        <p>协助校长开展工作。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="康震" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>副校长：涂清云</h3>
+                        <p>协助校长开展工作。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="涂清云" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="leader-item" onclick="toggleLeaderImages(this)">
+                        <h3>副校长：汪明</h3>
+                        <p>协助校长开展工作。</p>
+                        <div class="leader-images">
+                            <div class="image-gallery">
+                                <img src="生成网页初始人物剪影.png" alt="汪明" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="汪明" class="leader-image">
+                                <img src="生成网页初始人物剪影.png" alt="汪明" class="leader-image">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>领导分工</h2>
+                    
+                    <h3>党委书记 程建平</h3>
+                    <ul>
+                        <li>主持学校党委全面工作</li>
+                        <li>负责党的建设、思想政治工作</li>
+                        <li>领导学校改革发展稳定工作</li>
+                        <li>分管组织部、宣传部等部门</li>
+                    </ul>
+                    
+                    <h3>校长 马骏</h3>
+                    <ul>
+                        <li>主持学校行政全面工作</li>
+                        <li>负责学校发展规划、学科建设</li>
+                        <li>领导教学、科研、人事等工作</li>
+                        <li>分管校长办公室、发展规划处等部门</li>
+                    </ul>
+                    
+                    <h3>党委副书记 刘长旭</h3>
+                    <ul>
+                        <li>协助党委书记分管组织工作</li>
+                        <li>负责干部管理、人才工作</li>
+                        <li>分管统战部、离退休工作处</li>
+                    </ul>
+                    
+                    <h3>党委副书记、副校长 王守军</h3>
+                    <ul>
+                        <li>协助党委书记分管学生工作</li>
+                        <li>协助校长分管后勤、基建工作</li>
+                        <li>分管学生处、后勤管理处等部门</li>
+                    </ul>
+                    
+                    <h3>党委副书记 李晓兵</h3>
+                    <ul>
+                        <li>协助党委书记分管宣传工作</li>
+                        <li>负责校园文化建设、网络信息工作</li>
+                        <li>分管宣传部、信息网络中心</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>工作重点</h2>
+                    
+                    <h3>"双一流"建设</h3>
+                    <ul>
+                        <li>推进11个"双一流"建设学科发展</li>
+                        <li>加强学科交叉融合和创新</li>
+                        <li>提升学科国际影响力和竞争力</li>
+                        <li>建设世界一流大学和一流学科</li>
+                    </ul>
+                    
+                    <h3>人才培养</h3>
+                    <ul>
+                        <li>深化教育教学改革</li>
+                        <li>加强师德师风建设</li>
+                        <li>提升人才培养质量</li>
+                        <li>培养德智体美劳全面发展的社会主义建设者和接班人</li>
+                    </ul>
+                    
+                    <h3>科学研究</h3>
+                    <ul>
+                        <li>加强基础研究和应用研究</li>
+                        <li>服务国家重大战略需求</li>
+                        <li>推动科研成果转化</li>
+                        <li>提升学校科技创新能力</li>
+                    </ul>
+                    
+                    <h3>国际交流</h3>
+                    <ul>
+                        <li>推进国际化战略</li>
+                        <li>加强国际合作与交流</li>
+                        <li>提升学校国际影响力</li>
+                        <li>建设国际化校园</li>
+                    </ul>
+                    
+                    <h3>校园建设</h3>
+                    <ul>
+                        <li>推进智慧校园建设</li>
+                        <li>改善办学条件和环境</li>
+                        <li>加强校园文化建设</li>
+                        <li>提升管理服务水平</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+        <!-- 历史名人页面 -->
+        <div id="famous-people" class="page">
+            <div class="header">
+                <h1>历史名人</h1>
+                <div class="subtitle">大师云集，群星璀璨</div>
+            </div>
+            
+            <div class="home-content">
+                <section class="section">
+                    <h2>著名学者</h2>
+                    
+                    <div class="famous-person">
+                        <h3>鲁迅（1881-1936）</h3>
+                        <p>著名文学家、思想家、革命家，曾在北京师范大学任教。</p>
+                    </div>
+                    
+                    <div class="famous-person">
+                        <h3>梁启超（1873-1929）</h3>
+                        <p>著名思想家、政治家、教育家，曾在北京师范大学讲学。</p>
+                    </div>
+                    
+                    <div class="famous-person">
+                        <h3>钱玄同（1887-1939）</h3>
+                        <p>著名语言文字学家，北京师范大学教授。</p>
+                    </div>
+                    
+                    <div class="famous-person">
+                        <h3>黎锦熙（1890-1978）</h3>
+                        <p>著名语言学家，北京师范大学教授。</p>
+                    </div>
+                    
+                    <div class="famous-person">
+                        <h3>陈垣（1880-1971）</h3>
+                        <p>著名历史学家，北京师范大学校长。</p>
+                    </div>
+                    
+                    <div class="famous-person">
+                        <h3>钟敬文（1903-2002）</h3>
+                        <p>著名民俗学家、文学家，北京师范大学教授。</p>
+                    </div>
+                    
+                    <div class="famous-person">
+                        <h3>黄药眠（1903-1987）</h3>
+                        <p>著名文艺理论家、美学家，北京师范大学教授。</p>
+                    </div>
+                    
+                    <div class="famous-person">
+                        <h3>白寿彝（1909-2000）</h3>
+                        <p>著名历史学家，北京师范大学校长。</p>
+                    </div>
+                    
+                    <div class="famous-person">
+                        <h3>启功（1912-2005）</h3>
+                        <p>著名书画家、文物鉴定家，北京师范大学教授。</p>
+                    </div>
+                    
+                    <div class="famous-person">
+                        <h3>王梓坤（1929-）</h3>
+                        <p>著名数学家、教育家，北京师范大学校长。</p>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>学术贡献</h2>
+                    
+                    <h3>文学艺术领域</h3>
+                    <ul>
+                        <li><strong>鲁迅</strong>：中国现代文学的奠基人</li>
+                        <li><strong>梁启超</strong>：近代思想启蒙的重要人物</li>
+                        <li><strong>黄药眠</strong>：文艺理论和美学研究</li>
+                        <li><strong>启功</strong>：书画艺术和文物鉴定</li>
+                        <li><strong>钟敬文</strong>：民俗学和民间文艺研究</li>
+                    </ul>
+                    
+                    <h3>语言文字领域</h3>
+                    <ul>
+                        <li><strong>钱玄同</strong>：文字学和音韵学研究</li>
+                        <li><strong>黎锦熙</strong>：语法学和国语运动</li>
+                    </ul>
+                    
+                    <h3>历史学领域</h3>
+                    <ul>
+                        <li><strong>陈垣</strong>：历史文献学和元史研究</li>
+                        <li><strong>白寿彝</strong>：通史研究和史学理论</li>
+                    </ul>
+                    
+                    <h3>自然科学领域</h3>
+                    <ul>
+                        <li><strong>王梓坤</strong>：概率论和数学教育</li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>教育影响</h2>
+                    
+                    <p>这些著名学者在北京师范大学的任教和研究，不仅推动了各自学科的发展，也为学校培养了大批优秀人才，形成了深厚的学术传统和教育特色。</p>
+                    
+                    <h3>学术传承</h3>
+                    <ul>
+                        <li>建立了完整的学科体系和学术传统</li>
+                        <li>培养了一代又一代的学术人才</li>
+                        <li>形成了独特的学术风格和研究方法</li>
+                        <li>推动了学科交叉和创新发展</li>
+                    </ul>
+                    
+                    <h3>教育理念</h3>
+                    <ul>
+                        <li>强调学术自由和独立思考</li>
+                        <li>注重基础研究和理论创新</li>
+                        <li>提倡严谨求实的学术态度</li>
+                        <li>关注社会现实和时代需求</li>
+                    </ul>
+                    
+                    <h3>文化影响</h3>
+                    <ul>
+                        <li>丰富了校园文化内涵</li>
+                        <li>提升了学校文化品位</li>
+                        <li>影响了社会文化发展</li>
+                        <li>传承了中华优秀传统文化</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==== JSONBin 配置区 (必须修改！) ====
+        const JSONBIN_BIN_ID = '699d8c76d0ea881f40d4c648'; // 替换为您的 Bin ID
+        const JSONBIN_MASTER_KEY = '$2a$10$oGxRLV.ow32Nrmg.ypEDbOGnnDnm2ENYhGSUACepgP4S0YWeerPra'; // 替换为您的 Master Key
+        const JSONBIN_API_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
+        // ==== 配置结束 ====
+        // 全局变量
+        let selectedTextId = null;
+        let selectedTextContent = null;
+        let selectedAuthor = null; // 仅作兼容，实际读取自输入框
+        let currentTimelineItem = null;
+
+        // SPA页面切换逻辑
+        function showPage(pageId) {
+            // 隐藏所有页面
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // 显示目标页面
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                // ==== 新增：动态修复"组织机构"等页面的顶部偏移 ====
+                const problemPages = ['organization', 'past-leaders', 'current-leaders', 'famous-people'];
+                if (problemPages.includes(pageId)) {
+                    // 1. 找到页面的第一个 .section 或 .leader-item
+                    const firstContentBlock = targetPage.querySelector('.section, .leader-item, .famous-person');
+                    if (firstContentBlock) {
+                        // 2. 强制移除其顶部外边距和内边距
+                        firstContentBlock.style.marginTop = '0';
+                        firstContentBlock.style.paddingTop = '0';
+                        // 3. 可选：为调试添加一个临时视觉标记
+                        // firstContentBlock.style.border = '2px dashed red';
+                    }
+                    // 3. 确保页面容器自身无上边距
+                    targetPage.style.paddingTop = '0';
+                    targetPage.style.marginTop = '0';
+                }
+                // ==== 动态修复代码结束 ====
+
+                targetPage.classList.add('active');
+                
+                // 当页面切换时，重新绑定领导点击事件
+                if (pageId === 'past-leaders' || pageId === 'current-leaders' || pageId === 'famous-people') {
+                    // 延迟重新绑定，等待DOM更新
+                    setTimeout(() => {
+                        console.log(`页面切换到 ${pageId}，重新绑定领导点击事件`);
+                        initLeaderClickEvents();
+                    }, 300);
+                }
+                
+                // 强制同步重排，确保DOM已更新
+                targetPage.offsetHeight;
+                // 使用 requestAnimationFrame 确保在下一帧渲染前滚动到顶部
+                requestAnimationFrame(() => {
+                    window.scrollTo({
+                        top: 0,
+                        left: 0,
+                        behavior: 'auto' // 使用 'auto' 而非 'smooth' 确保立即跳转
+                    });
+                });
+            }
+            
+            // 确保只有当前页面的内容可见
+            // 隐藏所有section元素，除非它们在当前活动页面内
+            document.querySelectorAll('section').forEach(section => {
+                const isInActivePage = section.closest('.page.active');
+                if (!isInActivePage) {
+                    section.style.display = 'none';
+                } else {
+                    section.style.display = 'block';
+                }
+            });
+            
+            // 更新导航栏激活状态
+            updateNavActiveState(pageId);
+        }
+
+        // 更新导航栏激活状态
+        function updateNavActiveState(activePageId) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                const pageId = link.getAttribute('data-page');
+                if (pageId === activePageId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        // 处理导航链接点击
+        function handleNavClick(e) {
+            e.preventDefault();
+            const pageId = this.getAttribute('data-page');
+            
+            // 更新URL
+            const url = `#${pageId}`;
+            window.history.pushState({ page: pageId }, '', url);
+            
+            // 显示目标页面
+            showPage(pageId);
+        }
+
+        // 处理哈希变化
+        function handleHashChange() {
+            const hash = window.location.hash.substring(1); // 去掉#
+            
+            // 检查是否是页面内的导航（例如#home-overview）
+            if (hash.startsWith('home-')) {
+                // 对于页面内的导航，只处理滚动，不切换页面
+                const element = document.getElementById(hash);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            } else {
+                // 对于页面间的导航，切换页面
+                // 检查hash是否为空、null或无效的页面ID
+                const validPages = ['timeline', 'home', 'organization', 'past-leaders', 'current-leaders', 'famous-people'];
+                let pageId = hash;
+                
+                if (!pageId || pageId === 'null' || !validPages.includes(pageId)) {
+                    pageId = 'timeline'; // 默认为时间线页面
+                }
+                
+                // 避免重复切换
+                if (!document.getElementById(pageId)?.classList.contains('active')) {
+                    showPage(pageId);
+                }
+            }
+        }
+
+        // 处理popstate事件（浏览器前进/后退）
+        function handlePopState() {
+            handleHashChange();
+        }
+
+        // 领导图片弹窗函数
+        function openLeaderModal(name) {
+            const modal = document.getElementById('leaderModal');
+            const leaderName = document.getElementById('leaderModalName');
+            leaderName.textContent = name;
+            modal.style.display = 'block';
+        }
+
+        function closeLeaderModal() {
+            const modal = document.getElementById('leaderModal');
+            modal.style.display = 'none';
+        }
+
+        // 显示领导信息弹窗 - 修复缺失的函数
+        function showLeaderInfo(name, info) {
+            const modal = document.getElementById('leaderModal');
+            const leaderName = document.getElementById('leaderModalName');
+            const leaderInfo = document.getElementById('leaderModalInfo');
+            
+            if (leaderName) leaderName.textContent = name;
+            if (leaderInfo) leaderInfo.textContent = info;
+            
+            modal.style.display = 'block';
+        }
+
+        // 修复 closeLeaderModal 函数
+        function closeLeaderModal() {
+            const modal = document.getElementById('leaderModal');
+            modal.style.display = 'none';
+        }
+
+        // 统一的点击处理函数
+        function handleLeaderClick(e) {
+            e.stopPropagation();
+            
+            const nameEl = this.querySelector('h3');
+            const infoEl = this.querySelector('p');
+            const name = nameEl ? nameEl.textContent.trim() : '未知领导';
+            const info = infoEl ? infoEl.textContent.trim() : '暂无详细信息';
+            
+            console.log('点击了领导项目：', name, info);
+            showLeaderInfo(name, info);
+        }
+
+        // 重新设计 initLeaderClickEvents 函数，添加事件委托
+        function initLeaderClickEvents() {
+            console.log('初始化领导点击事件...');
+            
+            // 移除之前可能绑定的事件
+            document.querySelectorAll('.leader-item, .famous-person').forEach(item => {
+                item.removeEventListener('click', handleLeaderClick);
+            });
+            
+            // 使用事件委托，监听整个容器
+            const pages = ['past-leaders', 'current-leaders', 'famous-people'];
+            pages.forEach(pageId => {
+                const page = document.getElementById(pageId);
+                if (page) {
+                    // 添加事件委托
+                    page.addEventListener('click', function(e) {
+                        const target = e.target;
+                        const leaderItem = target.closest('.leader-item, .famous-person');
+                        if (leaderItem) {
+                            handleLeaderClick.call(leaderItem, e);
+                        }
+                    });
+                }
+            });
+            
+            // 直接绑定现有元素
+            document.querySelectorAll('.leader-item, .famous-person').forEach(item => {
+                item.addEventListener('click', handleLeaderClick);
+            });
+            
+            console.log('领导点击事件初始化完成，找到元素：', 
+                document.querySelectorAll('.leader-item, .famous-person').length);
+        }
+
+        // 初始化侧面导航栏滚动监听 (优化版)
+        function initSidebarNavigation() {
+            const sections = document.querySelectorAll('#home .section'); // 所有需要观察的分段
+            const navLinks = document.querySelectorAll('.sidebar-nav a'); // 所有导航链接
+            
+            if (sections.length === 0 || navLinks.length === 0) {
+                console.warn('未找到需要观察的分段或导航链接，侧面导航功能已禁用。');
+                return;
+            }
+            
+            // 1. 移除旧的滚动事件监听，采用更高效的 Intersection Observer API
+            const observerOptions = {
+                root: null, // 相对于视口
+                rootMargin: '-20% 0px -60% 0px', // 调整观察区域：顶部20%到底部60%为"活动区域"
+                threshold: 0 // 阈值设为0，表示目标一进入/离开观察区域就触发
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                // 找出当前"最应该"被高亮的分段
+                let mostVisibleSection = null;
+                let highestVisibility = 0; // 用一个简单的分数表示"可见度"
+                
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // 计算一个简单的"可见度"分数：交叉区域高度与元素自身高度的比例
+                        const visibility = entry.intersectionRect.height / entry.boundingClientRect.height;
+                        if (visibility > highestVisibility) {
+                            highestVisibility = visibility;
+                            mostVisibleSection = entry.target;
+                        }
+                    }
+                });
+                
+                // 如果找到了一个可见度最高的分段，则更新导航高亮
+                if (mostVisibleSection) {
+                    const activeSectionId = mostVisibleSection.id;
+                    updateSidebarHighlight(activeSectionId);
+                    
+                    // 可选：同步更新URL哈希（不添加历史记录，避免与点击冲突）
+                    if (window.location.hash !== `#${activeSectionId}`) {
+                        history.replaceState(null, '', `#${activeSectionId}`);
+                    }
+                }
+            }, observerOptions);
+            
+            // 开始观察所有分段
+            sections.forEach(section => observer.observe(section));
+            
+            // 2. 更新导航高亮的辅助函数
+            function updateSidebarHighlight(activeSectionId) {
+                navLinks.forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href === `#${activeSectionId}`) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+            
+            // 3. 初始化：检查当前哈希，并设置初始高亮
+            const currentHash = window.location.hash.substring(1);
+            if (currentHash) {
+                // 如果URL中已有哈希，尝试高亮对应的链接
+                const targetSection = document.getElementById(currentHash);
+                if (targetSection) {
+                    updateSidebarHighlight(currentHash);
+                }
+            } else {
+                // 如果URL中没有哈希，默认高亮第一个分段
+                if (sections.length > 0) {
+                    updateSidebarHighlight(sections[0].id);
+                }
+            }
+        }
+
+        // 初始化哈希导航
+        function initHashNavigation() {
+            // 监听哈希变化
+            window.addEventListener('hashchange', handleHashChange);
+            
+            // 监听popstate事件
+            window.addEventListener('popstate', handlePopState);
+            
+            // 初始加载时处理哈希
+            handleHashChange();
+            
+            // 为导航链接添加点击事件
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', handleNavClick);
+            });
+        }
+
+        // 初始化导航栏显示
+        function initScrollDetection() {
+            const navigation = document.getElementById('topNavigation');
+            // 直接显示导航栏，不需要检测滚动位置
+            navigation.classList.add('show');
+            // 添加弹出动画效果
+            navigation.style.animation = 'navSlideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+        }
+
+        // 页面加载完成后执行所有功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. 滚动动画功能
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            timelineItems.forEach(item => {
+                item.style.animationPlayState = 'paused';
+                observer.observe(item);
+            });
+
+            // 2. 启动爱心雨背景效果
+            startHeartRain();
+
+            // 3. 初始化滚动检测，判断用户是否看完时间轴
+            initScrollDetection();
+            
+            // 4. 初始化哈希导航
+            initHashNavigation();
+            
+            // 5. 初始化领导点击事件
+            initLeaderClickEvents();
+            
+            // 6. 初始化侧面导航栏滚动监听
+            initSidebarNavigation();
+            
+            // 7. 添加调试信息
+            console.log('领导点击事件函数已加载');
+            console.log('showLeaderInfo 函数状态：', typeof showLeaderInfo);
+            console.log('initLeaderClickEvents 函数状态：', typeof initLeaderClickEvents);
+            console.log('handleLeaderClick 函数状态：', typeof handleLeaderClick);
+
+            // 8. 全局修复：移除所有onclick属性，防止showLeaderInfo未定义错误
+            function removeOldOnclickAttributes() {
+                console.log('开始移除旧的onclick属性...');
+                
+                // 移除领导项目的onclick属性
+                document.querySelectorAll('.leader-item, .famous-person').forEach(item => {
+                    if (item.hasAttribute('onclick') && item.getAttribute('onclick').includes('showLeaderInfo')) {
+                        console.log('移除onclick属性：', item.getAttribute('onclick'));
+                        item.removeAttribute('onclick');
+                    }
+                });
+                
+                console.log('onclick属性移除完成');
+            }
+            
+            // 立即执行一次，并在页面切换时重新执行
+            removeOldOnclickAttributes();
+            
+            // 重写showPage函数，确保页面切换时也移除onclick属性
+            const originalShowPage = window.showPage;
+            window.showPage = function(pageId) {
+                originalShowPage.call(this, pageId);
+                
+                // 延迟执行，确保DOM已更新
+                setTimeout(() => {
+                    removeOldOnclickAttributes();
+                }, 100);
+            };
+
+            // 4. 先替换可能被屏蔽的图标，再尝试从云端加载时间线（若有），然后初始化其余绑定；若加载失败则继续本地初始化
+            if (typeof replaceFontAwesomeFallbacks === 'function') replaceFontAwesomeFallbacks();
+
+            if (typeof loadTimeline === 'function') {
+                loadTimeline().then(() => {
+                    initCommentableText();
+                    initCommentForm();
+                    initTimelineEditor();
+                    loadComments();
+                }).catch(err => {
+                    console.warn('loadTimeline failed:', err);
+                    // 云端加载失败时，使用本地北师大时间轴数据
+                    initializeTimeline();
+                    initCommentableText();
+                    initCommentForm();
+                    initTimelineEditor();
+                    loadComments();
+                });
+            } else {
+                console.warn('loadTimeline is not defined; using local timeline data');
+                // 使用本地北师大时间轴数据
+                initializeTimeline();
+                initCommentableText();
+                initCommentForm();
+                initTimelineEditor();
+                loadComments();
+            }
+        });
+
+        // 爱心雨背景效果函数
+        function startHeartRain() {
+            // 创建爱心容器
+            const heartContainer = document.createElement('div');
+            heartContainer.id = 'heart-rain-container';
+            Object.assign(heartContainer.style, {
+                position: 'fixed',
+                top: '0',
+                left: '0',
+                width: '100%',
+                height: '100%',
+                pointerEvents: 'none',
+                zIndex: '1',
+                overflow: 'hidden'
+            });
+            document.body.appendChild(heartContainer);
+
+            // 创建单个爱心的函数
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.innerHTML = '★';
+                Object.assign(heart.style, {
+                    position: 'absolute',
+                    fontSize: (Math.random() * 20 + 25) + 'px', // 增大到25-45px
+                    left: (Math.random() * 100) + '%',
+                    top: '-50px', // 调整起始位置
+                    opacity: Math.random() * 0.5 + 0.3, // 增加透明度范围
+                    pointerEvents: 'none',
+                    userSelect: 'none',
+                    animation: `heartFall ${Math.random() * 4 + 3}s linear forwards`, // 稍微延长动画时间
+                    color: getRandomHeartColor()
+                });
+                
+                heartContainer.appendChild(heart);
+
+                // 动画结束后移除元素
+                setTimeout(() => {
+                    if (heart.parentNode) {
+                        heart.parentNode.removeChild(heart);
+                    }
+                }, 7000); // 延长清理时间
+            }
+
+            // 获取随机爱心颜色
+            function getRandomHeartColor() {
+                const colors = ['#ff6b6b', '#ff8e8e', '#ffb6c1', '#ff9a8b', '#ff7eb3', '#ffc0cb', '#ff1493'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            // 开始定时创建爱心 - 降低频率避免过于密集
+            setInterval(createHeart, 800);
+
+            // 添加CSS动画关键帧
+            const styleSheet = document.createElement('style');
+            styleSheet.textContent = `
+                @keyframes heartFall {
+                    0% {
+                        transform: translateY(0) rotate(0deg);
+                        opacity: 0;
+                    }
+                    10% {
+                        opacity: inherit;
+                    }
+                    90% {
+                        opacity: inherit;
+                    }
+                    100% {
+                        transform: translateY(100vh) rotate(${Math.random() * 1080}deg); // 增加旋转角度
+                        opacity: 0;
+                    }
+                }
+                
+                /* 确保主要内容在爱心之上 */
+                .container, .header, .timeline, .footer {
+                    position: relative;
+                    zIndex: 10;
+                }
+            `;
+            document.head.appendChild(styleSheet);
+        }
+
+        // 初始化可评论文本 - 修复版本
+        function initCommentableText() {
+            // 1. 已有的可评论文本
+            const commentableTexts = document.querySelectorAll('.commentable-text');
+            
+            // 2. 为时间线描述段落添加评论功能
+            const timelineParagraphs = document.querySelectorAll('.timeline-text p:not(.commentable-text)');
+            
+            // 3. 为聊天气泡添加评论功能
+            const chatBubbles = document.querySelectorAll('.chat-bubble');
+            
+            // 4. 为记忆项目添加评论功能
+            const memoryItems = document.querySelectorAll('.memory-item');
+            
+            // 合并所有可评论元素
+            const allCommentableElements = [
+                ...commentableTexts, 
+                ...timelineParagraphs, 
+                ...chatBubbles,
+                ...memoryItems
+            ];
+            
+            // 固定ID生成函数
+            function generateStableId(text) {
+                // 简单哈希函数，为文本生成一个简短固定字符串
+                let hash = 0;
+                for (let i = 0; i < text.length; i++) {
+                    hash = ((hash << 5) - hash) + text.charCodeAt(i);
+                    hash |= 0; // 转换为32位整数
+                }
+                // 取绝对值并转为基数为36的短字符串
+                return 'text-' + Math.abs(hash).toString(36).substring(0, 8);
+            }
+            
+            allCommentableElements.forEach((element, index) => {
+                // 为没有data-text-id的元素添加固定ID
+                if (!element.dataset.textId) {
+                    // 使用文本内容生成固定ID（取前100字符避免过长）
+                    const textContent = element.textContent.trim().substring(0, 100);
+                    element.dataset.textId = generateStableId(textContent);
+                }
+                
+                // 添加可评论样式（如果不是span.commentable-text）
+                if (!element.classList.contains('commentable-text') && element.tagName !== 'SPAN') {
+                    element.style.cursor = 'pointer';
+                    element.style.padding = '4px';
+                    element.style.borderRadius = '3px';
+                    element.style.transition = 'all 0.3s ease';
+                    
+                    // 添加悬停效果
+                    element.addEventListener('mouseenter', function() {
+                        this.style.backgroundColor = 'rgba(255, 154, 139, 0.2)';
+                        this.style.boxShadow = '0 0 0 2px rgba(255, 154, 139, 0.3)';
+                    });
+                    
+                    element.addEventListener('mouseleave', function() {
+                        if (!this.classList.contains('selected')) {
+                            this.style.backgroundColor = '';
+                            this.style.boxShadow = '';
+                        }
+                    });
+                }
+                
+                // 添加点击事件
+                element.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    // 清除之前的选择
+                    document.querySelectorAll('.commentable-text, .timeline-text p, .chat-bubble, .memory-item').forEach(el => {
+                        el.classList.remove('selected');
+                        // 恢复非span元素的样式
+                        if (el.tagName !== 'SPAN') {
+                            el.style.backgroundColor = '';
+                            el.style.boxShadow = '';
+                        }
+                    });
+                    
+                    // 标记当前选择
+                    this.classList.add('selected');
+                    // 为非span元素设置选中样式
+                    if (this.tagName !== 'SPAN') {
+                        this.style.backgroundColor = 'rgba(255, 154, 139, 0.4)';
+                        this.style.boxShadow = '0 0 0 2px var(--accent-color)';
+                    }
+                    
+                    selectedTextId = this.dataset.textId;
+                    selectedTextContent = this.textContent.trim();
+                    showCommentModal();
+                });
+            });
+        }
+        
+        // 初始化评论表单
+        function initCommentForm() {
+            const textarea = document.getElementById('commentTextarea');
+            
+            textarea.addEventListener('input', function() {
+                updateSubmitButtonState();
+            });
+            const authorInput = document.getElementById('commentAuthorInput');
+            if (authorInput) {
+                authorInput.addEventListener('input', function() {
+                    updateSubmitButtonState();
+                });
+            }
+        }
+        
+        // 重置评论表单
+        function resetCommentForm() {
+            document.getElementById('commentTextarea').value = '';
+            const authorInput = document.getElementById('commentAuthorInput');
+            if (authorInput) authorInput.value = '';
+            selectedAuthor = null;
+            updateSubmitButtonState();
+        }
+        
+        // 更新提交按钮状态
+        function updateSubmitButtonState() {
+            const submitBtn = document.getElementById('submitCommentBtn');
+            const textarea = document.getElementById('commentTextarea');
+            const authorInput = document.getElementById('commentAuthorInput');
+            const hasContent = textarea.value.trim().length > 0;
+            const hasAuthor = authorInput && authorInput.value.trim().length > 0;
+            
+            submitBtn.disabled = !(hasContent && hasAuthor);
+        }
+        
+        // 显示评论弹窗
+        function showCommentModal() {
+            const modal = document.getElementById('commentModal');
+            const preview = document.getElementById('selectedTextPreview');
+            
+            preview.textContent = selectedTextContent;
+            modal.classList.add('active');
+            
+            // 重置表单
+            resetCommentForm();
+        }
+        
+        // 关闭评论弹窗
+        function closeCommentModal() {
+            const modal = document.getElementById('commentModal');
+            modal.classList.remove('active');
+            
+            // 清除选择状态
+            selectedTextId = null;
+            selectedTextContent = null;
+            
+            // 重置表单
+            resetCommentForm();
+        }
+        
+        // 提交评论
+        async function submitComment() {
+            const textarea = document.getElementById('commentTextarea');
+            const authorInput = document.getElementById('commentAuthorInput');
+            const commentText = textarea.value.trim();
+            const authorName = authorInput ? authorInput.value.trim() : '';
+            
+            if (!commentText || !authorName) {
+                showStatus('请填写评论内容和昵称', 'error');
+                return;
+            }
+            
+            if (!selectedTextId) {
+                showStatus('请先选择要评论的文本', 'error');
+                return;
+            }
+            
+            try {
+                const comment = {
+                    id: 'comment-' + Date.now().toString(36),
+                    textId: selectedTextId,
+                    textContent: selectedTextContent,
+                    author: authorName,
+                    content: commentText,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // 先保存到本地
+                let comments = JSON.parse(localStorage.getItem('timelineComments') || '[]');
+                comments.push(comment);
+                localStorage.setItem('timelineComments', JSON.stringify(comments));
+                
+                // 同步到云端
+                const response = await fetch(JSONBIN_API_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': JSONBIN_MASTER_KEY
+                    },
+                    body: JSON.stringify({ comments: comments })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`保存失败: ${response.status}`);
+                }
+                
+                console.log('评论保存成功');
+                showStatus('评论已保存到云端！', 'success');
+                
+                // 关闭弹窗
+                closeCommentModal();
+                
+                // 重新加载评论以显示新评论
+                loadComments();
+                
+            } catch (error) {
+                console.error('保存到云端失败:', error);
+                showStatus('保存失败，请检查网络后重试', 'error');
+                // 从本地移除失败的评论
+                let comments = JSON.parse(localStorage.getItem('timelineComments') || '[]');
+                comments = comments.filter(c => c.id !== comment.id);
+                localStorage.setItem('timelineComments', JSON.stringify(comments));
+            }
+        }
+        
+        // 从云端加载评论
+        async function loadComments() {
+            try {
+                console.log('正在从云端加载评论...');
+                const response = await fetch(JSONBIN_API_URL, {
+                    headers: {
+                        'X-Master-Key': JSONBIN_MASTER_KEY
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP错误: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('从云端收到的原始数据:', data);
+                
+                // 处理数据格式
+                let comments = [];
+                if (Array.isArray(data.record)) {
+                    comments = data.record;
+                    console.log('数据是数组格式');
+                } else if (data.record && data.record.comments && Array.isArray(data.record.comments)) {
+                    comments = data.record.comments;
+                    console.log('数据是{comments: [...]}格式');
+                } else {
+                    comments = data.record || [];
+                    console.log('数据是其他格式');
+                }
+                
+                // 保存到本地存储
+                localStorage.setItem('timelineComments', JSON.stringify(comments));
+                
+                console.log('评论加载完成，共', comments.length, '条评论');
+                
+                // 显示评论气泡
+                displayComments(comments);
+                
+            } catch (error) {
+                console.error('加载评论失败:', error);
+                // 使用本地存储的评论
+                const localComments = JSON.parse(localStorage.getItem('timelineComments') || '[]');
+                displayComments(localComments);
+            }
+        }
+        
+        // 显示评论气泡
+        function displayComments(comments) {
+            // 清除现有评论气泡
+            document.querySelectorAll('.side-comment').forEach(bubble => {
+                bubble.remove();
+            });
+            
+            comments.forEach(comment => {
+                const textElement = document.querySelector(`[data-text-id="${comment.textId}"]`);
+                if (textElement) {
+                    createCommentBubble(textElement, comment);
+                }
+            });
+        }
+        
+        // 创建评论气泡
+        function createCommentBubble(textElement, comment) {
+            const bubble = document.createElement('div');
+            bubble.className = 'side-comment';
+            bubble.innerHTML = `
+                <div style="font-weight:bold; color:var(--primary-color); margin-bottom:5px;">${comment.author}</div>
+                <div style="color:var(--dark-text);">${comment.content}</div>
+                <div style="font-size:0.8rem; color:var(--light-text); margin-top:5px;">
+                    ${new Date(comment.timestamp).toLocaleString()}
+                </div>
+            `;
+            
+            document.body.appendChild(bubble);
+            
+            // 定位气泡
+            positionCommentBubble(bubble, textElement);
+        }
+        
+        // 定位评论气泡
+        function positionCommentBubble(bubble, textElement) {
+            const rect = textElement.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // 将评论放在文本右侧
+            bubble.style.left = (rect.right + 20) + 'px';
+            bubble.style.top = (rect.top + scrollTop + rect.height / 2 - 60) + 'px';
+        }
+        
+        // 序列化时间线数据
+        function serializeTimeline() {
+            const timeline = [];
+            const items = document.querySelectorAll('.timeline .timeline-item');
+            items.forEach(item => {
+                const itemId = item.dataset.itemId || '';
+                const dateEl = item.querySelector('.timeline-date');
+                const titleEl = item.querySelector('.timeline-title');
+                const textEl = item.querySelector('.timeline-text');
+                const date = dateEl ? dateEl.textContent.replace(/\\u200B/g, '').trim() : '';
+                const title = titleEl ? titleEl.textContent.trim() : '';
+                const paragraphs = [];
+                if (textEl) {
+                    textEl.querySelectorAll('p').forEach(p => {
+                        paragraphs.push(p.textContent.trim());
+                    });
+                }
+                timeline.push({ itemId, date, title, paragraphs });
+            });
+            return timeline;
+        }
+        
+        // 保存时间线到 JSONBin
+        async function saveTimeline() {
+            try {
+                const timelineArray = serializeTimeline();
+
+                // 先尝试读取现有记录
+                let record = {};
+                try {
+                    const getRes = await fetch(JSONBIN_API_URL, { headers: { 'X-Master-Key': JSONBIN_MASTER_KEY } });
+                    if (getRes.ok) {
+                        const d = await getRes.json();
+                        record = d.record && typeof d.record === 'object' ? d.record : {};
+                    }
+                } catch (e) {
+                    console.warn('读取现有 record 失败，将新建：', e);
+                }
+
+                record.timeline = timelineArray;
+
+                const putRes = await fetch(JSONBIN_API_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': JSONBIN_MASTER_KEY
+                    },
+                    body: JSON.stringify(record)
+                });
+
+                if (!putRes.ok) throw new Error('HTTP ' + putRes.status);
+                showStatus('时间线已同步到云端', 'success');
+            } catch (err) {
+                console.error('保存时间线到云端失败:', err);
+                showStatus('时间线同步失败（请检查密钥或网络）', 'error');
+            }
+        }
+        
+        // 根据数组渲染时间线（会替换现有 .timeline 中的子项）
+        function renderTimelineFromArray(arr) {
+            const timeline = document.querySelector('.timeline');
+            if (!timeline) return;
+            timeline.innerHTML = '';
+            arr.forEach((it, index) => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item';
+                item.style.animationDelay = (0.1 + index * 0.1) + 's';
+                item.dataset.itemId = it.itemId || ('bnfu-stage-' + index);
+
+                const dot = document.createElement('div'); dot.className = 'timeline-dot';
+                const content = document.createElement('div'); content.className = 'timeline-content';
+                const dateDiv = document.createElement('div'); dateDiv.className = 'timeline-date'; dateDiv.innerHTML = '📅 ' + (it.date || '');
+                const h3 = document.createElement('h3'); h3.className = 'timeline-title'; h3.textContent = it.title || '';
+                const textDiv = document.createElement('div'); textDiv.className = 'timeline-text';
+                (it.paragraphs || []).forEach((ptext, idx) => {
+                    const p = document.createElement('p'); p.textContent = ptext; p.dataset.textId = (it.itemId || 'it') + '-' + idx; textDiv.appendChild(p);
+                });
+
+                content.appendChild(dateDiv);
+                content.appendChild(h3);
+                content.appendChild(textDiv);
+                item.appendChild(dot);
+                item.appendChild(content);
+                timeline.appendChild(item);
+            });
+        }
+
+        // 从 JSONBin 加载时间线（如果存在）并渲染
+        async function loadTimeline() {
+            try {
+                console.log('开始从云端加载时间线...');
+                console.log('JSONBin API URL:', JSONBIN_API_URL);
+                
+                const response = await fetch(JSONBIN_API_URL, { headers: { 'X-Master-Key': JSONBIN_MASTER_KEY } });
+                console.log('HTTP 响应状态:', response.status);
+                
+                if (!response.ok) {
+                    console.warn('HTTP 响应失败:', response.status, response.statusText);
+                    return;
+                }
+                
+                const data = await response.json();
+                console.log('从 JSONBin 获取的原始数据:', data);
+                
+                // 尝试处理不同的数据格式
+                let timelineData = [];
+                
+                // 格式1: { "record": { "timeline": [...] } }
+                if (data && data.record && Array.isArray(data.record.timeline)) {
+                    timelineData = data.record.timeline;
+                    console.log('使用格式1: { record: { timeline: [...] } }');
+                }
+                // 格式2: { "timeline": [...] }
+                else if (data && Array.isArray(data.timeline)) {
+                    timelineData = data.timeline;
+                    console.log('使用格式2: { timeline: [...] }');
+                }
+                // 格式3: [...] (直接是时间线数组)
+                else if (Array.isArray(data)) {
+                    timelineData = data;
+                    console.log('使用格式3: [...] (直接是时间线数组)');
+                }
+                // 格式4: 检查 data.record 是否直接是数组
+                else if (data && Array.isArray(data.record)) {
+                    timelineData = data.record;
+                    console.log('使用格式4: { record: [...] }');
+                }
+                else {
+                    console.warn('无法识别的数据格式:', typeof data, data);
+                    showStatus('无法识别云端数据格式', false);
+                    return;
+                }
+                
+                console.log('处理后的时间线数据:', timelineData);
+                console.log('时间线项目数量:', timelineData.length);
+                
+                if (timelineData.length > 0) {
+                    console.log('开始渲染时间线...');
+                    renderTimelineFromArray(timelineData);
+                    // 重新初始化编辑按钮和评论绑定
+                    initTimelineEditor();
+                    initCommentableText();
+                    console.log('时间线渲染完成');
+                    showStatus('已从云端加载时间线', 'success');
+                } else {
+                    console.warn('时间线数据为空');
+                    showStatus('云端时间线数据为空', 'error');
+                }
+            } catch (error) {
+                console.error('加载时间线失败:', error);
+                showStatus('加载时间线失败: ' + error.message, 'error');
+            }
+        }
+        
+        // 全局变量
+        let currentEditingItem = null;
+        
+        function openEditModal(item) {
+            currentEditingItem = item;
+            const editModal = document.getElementById('editModal');
+            const dateInput = document.getElementById('editDateInput');
+            const titleInput = document.getElementById('editTitleInput');
+            const contentTextarea = document.getElementById('editContentTextarea');
+
+            const dateEl = item.querySelector('.timeline-date');
+            const titleEl = item.querySelector('.timeline-title');
+            const textEl = item.querySelector('.timeline-text');
+
+            dateInput.value = dateEl ? dateEl.textContent.replace('📅 ', '') : '';
+            titleInput.value = titleEl ? titleEl.textContent : '';
+
+            // 合并各段为 textarea 文本
+            const paragraphs = Array.from(textEl.querySelectorAll('p')).map(p => p.textContent.trim());
+            contentTextarea.value = paragraphs.join('\n\n');
+
+            // 设置标题为编辑
+            const header = editModal.querySelector('.comment-modal-header h3');
+            if (header) header.textContent = '编辑时间项';
+            editModal.classList.add('active');
+        }
+
+        function openAddModal() {
+            currentEditingItem = null;
+            const editModal = document.getElementById('editModal');
+            const dateInput = document.getElementById('editDateInput');
+            const titleInput = document.getElementById('editTitleInput');
+            const contentTextarea = document.getElementById('editContentTextarea');
+
+            dateInput.value = '';
+            titleInput.value = '';
+            contentTextarea.value = '';
+
+            const header = editModal.querySelector('.comment-modal-header h3');
+            if (header) header.textContent = '添加时间项';
+
+            editModal.classList.add('active');
+        }
+
+        function closeEditModal() {
+            const editModal = document.getElementById('editModal');
+            editModal.classList.remove('active');
+            currentEditingItem = null;
+        }
+
+        async function deleteTimelineItem(item) {
+            if (confirm('确定要删除此时间轴项目吗？')) {
+                // 从DOM中移除该时间轴项目
+                item.remove();
+                
+                // 保存到云端
+                await saveTimeline();
+                
+                showStatus('时间轴项目已删除并保存到云端', 'success');
+            }
+        }
+        
+        // 初始化北师大时间轴内容（本地数据）
+        function initializeTimeline() {
+            const timelineData = [
+                {
+                    date: "1902-1911",
+                    title: "肇基初创，师范先声",
+                    content: "1902年：清政府在京师大学堂内设立'师范馆'，于12月17日开学。这被视为北京师范大学的肇始之日，也是中国现代高等师范教育的开端。首批学生仅79人，学制四年，课程涵盖中西，旨在培养新式学堂的师资。"
+                },
+                {
+                    date: "1912-1937", 
+                    title: "独立建制，体系初成",
+                    content: "1912年：中华民国成立后，学校改名为'北京高等师范学校'（简称'北京高师'）。这一时期，学校在校长陈宝泉等人主持下，进行系列改革，设立教育、国文、英语、史地、数理、理化、博物等部，并创办附属中小学，形成了完整的师范教育体系。"
+                },
+                {
+                    date: "1937-1949",
+                    title: "烽火西迁，弦歌不辍", 
+                    content: "1937年：抗日战争全面爆发，北平沦陷。国立北平师范大学与国立北平大学、国立北洋工学院等西迁陕西，组成'国立西安临时大学'，后改称'国立西北联合大学'。在极其艰苦的条件下，师生坚持教学与研究，为西北地区播下了现代教育的种子。"
+                },
+                {
+                    date: "1949-1977",
+                    title: "新中国建设，调整发展",
+                    content: "1949年：北平解放，学校更名为'北京师范大学'，毛泽东主席亲笔题写校名。1952年：全国高校院系调整。北京大学、中国人民大学、燕京大学等校的教育学、心理学系科并入北师大，大大增强了教育学科实力。"
+                },
+                {
+                    date: "1978-1999", 
+                    title: "改革开放，复兴腾飞",
+                    content: "1978年：恢复全国统一招生，教学科研秩序逐步恢复正常。被重新确定为全国重点大学。1996年：入选国家首批'211工程'重点建设大学。学校开始向以教师教育、教育科学和文理基础学科为主要特色的综合性研究型大学转型。"
+                },
+                {
+                    date: "2000-2016",
+                    title: "世纪跨越，战略拓展", 
+                    content: "2002年：百年校庆。国家领导人出席庆典，提出将北师大建设成为'综合性、有特色、研究型的世界知名高水平大学'的奋斗目标。2006年：入选'985工程'优势学科创新平台建设高校。学校形成'一体两翼'（北京校区、珠海校区）的办学格局。"
+                },
+                {
+                    date: "2017-至今",
+                    title: "新时代，'双一流'引领",
+                    content: "2017年：入选国家'双一流'建设高校A类名单，教育学、心理学、中国语言文学、中国史、数学、地理学、系统科学、生态学、环境科学与工程、戏剧与影视学、语言学等11个学科入选'双一流'建设学科。2022年：隆重举行建校120周年庆祝活动。"
+                }
+            ];
+            
+            const timelineContainer = document.querySelector('.timeline');
+            
+            timelineData.forEach((item, index) => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item';
+                timelineItem.style.animationDelay = `${index * 0.1}s`;
+                
+                timelineItem.innerHTML = `
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">${item.date}</div>
+                        <div class="timeline-title">${item.title}</div>
+                        <div class="timeline-text">${item.content}</div>
+                    </div>
+                `;
+                
+                timelineContainer.appendChild(timelineItem);
+            });
+        }
+        
+        async function saveEdit() {
+            const isCreate = !currentEditingItem;
+            const dateInput = document.getElementById('editDateInput');
+            const titleInput = document.getElementById('editTitleInput');
+            const contentTextarea = document.getElementById('editContentTextarea');
+            const parts = contentTextarea.value.split(/\n{1,}/).map(s => s.trim()).filter(Boolean);
+
+            if (isCreate) {
+                // 创建新的 timeline-item
+                const timeline = document.querySelector('.timeline');
+                const itemsCount = timeline.querySelectorAll('.timeline-item').length;
+                const item = document.createElement('div');
+                item.className = 'timeline-item';
+                item.style.animationDelay = (0.1 + itemsCount * 0.1) + 's';
+                item.dataset.itemId = 'bnfu-stage-new-' + Date.now().toString(36);
+
+                const dot = document.createElement('div'); dot.className = 'timeline-dot';
+                const content = document.createElement('div'); content.className = 'timeline-content';
+
+                const dateDiv = document.createElement('div'); dateDiv.className = 'timeline-date'; dateDiv.innerHTML = '📅 ' + (dateInput.value || '');
+                const h3 = document.createElement('h3'); h3.className = 'timeline-title'; h3.textContent = titleInput.value || '';
+                const textDiv = document.createElement('div'); textDiv.className = 'timeline-text';
+
+                parts.forEach((ptext, idx) => {
+                    const p = document.createElement('p');
+                    p.textContent = ptext;
+                    p.dataset.textId = 'edit-' + Date.now().toString(36) + '-' + idx;
+                    textDiv.appendChild(p);
+                });
+
+                content.appendChild(dateDiv);
+                content.appendChild(h3);
+                content.appendChild(textDiv);
+
+                item.appendChild(dot);
+                item.appendChild(content);
+
+                timeline.appendChild(item);
+
+                // 重新绑定编辑按钮
+                initTimelineEditor();
+
+                // 保存到云端
+                await saveTimeline();
+
+                closeEditModal();
+                showStatus('已添加新时间项并保存到云端', 'success');
+            } else {
+                const dateEl = currentEditingItem.querySelector('.timeline-date');
+                const titleEl = currentEditingItem.querySelector('.timeline-title');
+                const textEl = currentEditingItem.querySelector('.timeline-text');
+
+                if (dateEl) dateEl.innerHTML = '📅 ' + (dateInput.value || '');
+                if (titleEl) titleEl.textContent = titleInput.value || '';
+
+                textEl.innerHTML = '';
+                parts.forEach((ptext, idx) => {
+                    const p = document.createElement('p');
+                    p.textContent = ptext;
+                    p.dataset.textId = 'edit-' + Date.now().toString(36) + '-' + idx;
+                    textEl.appendChild(p);
+                });
+
+                // 重新初始化可评论文本（使新段落可评论）
+                initCommentableText();
+
+                // 保存到云端
+                await saveTimeline();
+
+                closeEditModal();
+                showStatus('时间项已保存到云端', 'success');
+            }
+        }
+        
+        function showStatus(message, type) {
+            const indicator = document.getElementById('statusIndicator');
+            indicator.textContent = message;
+            indicator.className = `status-indicator ${type === 'success' ? 'status-success' : 'status-error'} show`;
+            
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 3000);
+        }
+        
+        // 初始化时间线编辑器（为现有项目添加编辑按钮）
+        function initTimelineEditor() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            timelineItems.forEach(item => {
+                // 检查是否已经添加过按钮
+                if (item.querySelector('.edit-btn')) {
+                    return;
+                }
+                
+                // 编辑按钮
+                const editBtn = document.createElement('button');
+                editBtn.className = 'edit-btn';
+                editBtn.title = '编辑此时间项';
+                editBtn.innerHTML = '✏️';
+                editBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openEditModal(item);
+                });
+
+                // 删除按钮
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.title = '删除此时间项';
+                deleteBtn.innerHTML = '🗑';
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deleteTimelineItem(item);
+                });
+
+                // 将按钮放入内容区右上角
+                const content = item.querySelector('.timeline-content');
+                content.style.position = 'relative';
+                content.appendChild(editBtn);
+                content.appendChild(deleteBtn);
+            });
+        }
+        
+        // 添加时间线阶段
+        document.getElementById('addStageBtn').addEventListener('click', function() {
+            openAddModal();
+        });
+        
+        // 加载时间线
+        document.getElementById('loadTimelineBtn').addEventListener('click', function() {
+            showStatus('时间线加载完成！', 'success');
+        });
+
+        // 领导图片切换功能
+        function toggleLeaderImages(element) {
+            // 获取当前点击的领导项目
+            const leaderItem = element;
+            const imagesContainer = leaderItem.querySelector('.leader-images');
+            
+            // 切换展开状态
+            leaderItem.classList.toggle('expanded');
+            
+            // 切换图片显示
+            if (leaderItem.classList.contains('expanded')) {
+                imagesContainer.classList.add('active');
+            } else {
+                imagesContainer.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
